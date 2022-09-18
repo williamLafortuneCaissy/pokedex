@@ -7,6 +7,7 @@ const PokemonList = () => {
     useEffect(() => {
         const storedData = JSON.parse(localStorage.getItem('pokemonList')) || null
         if(storedData) {
+            console.log('localStorage', storedData)
             setPokemonList(storedData)
         } else {
             fetchPokemons()
@@ -22,8 +23,9 @@ const PokemonList = () => {
             if (!response.ok) throw new Error('Could not load pokemons')
             const fetchedData = await response.json()
 
-            console.log(fetchedData.results)
+            console.log('fetched', fetchedData.results)
             setPokemonList(fetchedData.results)
+            localStorage.setItem('pokemonList', JSON.stringify(fetchedData.results))
 
         } catch (error) {
             console.log(error)
@@ -36,7 +38,7 @@ const PokemonList = () => {
     return (
         <div>
             {pokemonList?.map(pokemon => (
-                <PokemonListItem key={pokemon.name} pokemon={pokemon} />
+                <PokemonListItem key={pokemon.name} fetchUrl={pokemon.url} />
             ))}
         </div>
     );
