@@ -36,10 +36,12 @@ const PokemonList = () => {
     }
 
     return (
-        <div>
-            {pokemonList?.map(pokemon => (
-                <PokemonListItem key={pokemon.name} fetchUrl={pokemon.url} />
-            ))}
+        <div className="container">
+            <div className="pokemonGrid">
+                {pokemonList?.map(pokemon => (
+                    <PokemonListItem key={pokemon.name} fetchUrl={pokemon.url} />
+                ))}
+            </div>
         </div>
     );
 }

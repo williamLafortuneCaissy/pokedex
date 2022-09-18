@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import './_pokemonList.scss';
+import { ReactComponent as Pokeball } from '../../assets/images/pokeball.svg'
 
 // pokemon = {name: '', url: ''}
 const PokemonListItem = ({fetchUrl}) => {
@@ -52,16 +54,17 @@ const PokemonListItem = ({fetchUrl}) => {
     return (
         <>
             {pokemon &&
-                <div className={`pokemonLi pokemonLi--${pokemon.types[0].name}`}>
+                <div className={`pokemonLi bg-${pokemon.types[0].name}`}>
+                    <Pokeball className="pokemonLi__bg" />
                     <div className="pokemonLi__id">{getTransformedId(pokemon.id)}</div>
                     <div className="pokemonLi__name">{pokemon.name}</div>
                     <div className="d-flex">
                         <div>
                             {pokemon.types.map(type => (
-                                <div key={type.name} className={`pokemonLi__type mb-1`}>{type.name}</div>
+                                <div key={type.name} className={`tag mb-2`}>{type.name}</div>
                             ))}
                         </div>
-                        <div><img src={pokemon.img} alt={pokemon.name} /></div>
+                        <div className="ml-auto"><img src={pokemon.img} alt={pokemon.name} /></div>
                     </div>
                 </div>
             }

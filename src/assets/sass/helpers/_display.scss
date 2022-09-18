@@ -1,0 +1,23 @@
+@use "../abstracts/display" as *;
+
+@each $key, $value in $display {
+	.d-#{$key} {
+		display: $value !important;
+	}
+}
+
+
+// flex utilities
+@each $key, $value in $align {
+	.align-items-#{$key} {
+		align-items: $value;
+	}
+	.align-self-#{$key} {
+		align-self: $value;
+	}
+}
+@each $key, $value in $align {
+	.justify-content-#{$key} {
+		justify-content: $value;
+	}
+}

@@ -1,0 +1,29 @@
+@use "../abstracts/type" as *;
+
+//font-size
+@each $key, $value in $font-size {
+	.fs-#{$key} {
+		font-size: $value !important;
+	}
+}
+
+//font-weight
+@each $key, $value in $font-weight {
+	.fw-#{$key} {
+		font-weight: $value !important;
+	}
+}
+
+//text-align
+@each $key, $value in $text-align {
+	.text-#{$key} {
+		text-align: $value !important;
+	}
+}
+
+//vertical align
+.align-top 		{ vertical-align: top !important;}
+.align-middle 	{ vertical-align: middle !important;}
+.align-baseline { vertical-align: baseline !important;}
+.align-bottom 	{ vertical-align: bottom !important;}
+

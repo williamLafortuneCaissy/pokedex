@@ -1,0 +1,29 @@
+@use "../abstracts/spacers" as *;
+
+@each $suffix, $value in $spacers {
+
+	@each $prefix, $property in $spacersProps {
+		.#{$prefix}-#{$suffix} {
+			#{$property}: $value !important;
+		}
+	}
+
+	//x and y values
+	.mx-#{$suffix} {
+		margin-left: $value;
+		margin-right: $value;
+	}
+	.my-#{$suffix} {
+		margin-top: $value;
+		margin-bottom: $value;
+	}
+	.px-#{$suffix} {
+		padding-left: $value;
+		padding-right: $value;
+	}
+	.py-#{$suffix} {
+		padding-top: $value;
+		padding-bottom: $value;
+	}
+
+}
