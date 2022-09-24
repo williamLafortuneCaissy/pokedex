@@ -1,32 +1,26 @@
 import { Link, useParams } from "react-router-dom";
 import { BsArrowLeft } from "react-icons/bs"
-import { useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
+import PokemonsContext from "../../context/PokemonsContext";
 
 const PokemonDetail = () => {
-
+    const pokemonsContext = useContext(PokemonsContext)
     const { pokemonName } = useParams()
 
     useEffect(() => {
-        /*
-        todo:
-            - refactor data fetching so that we use context's data
-            - fetch remaining data
-            - update context via reducer
-
-        goal:
-        - fetch data
-        - update reducer
-        - context provides reducer
-        */
-
-
-
-    }, [pokemonName]);
-
+        pokemonsContext.getPokemon(pokemonName)
+        // // setPokemon
+        // const pokemonData = pokemonsContext.pokemons.find(pokemon => pokemon.name === pokemonName)
+        // setPokemon(pokemonData)
+        // console.log(pokemonData)
+    }, []);
+    const pokemon = pokemonsContext.pokemons.find(pokemon => pokemon.name === pokemonName)
     return (
         <div className="bg-grass">
             <Link to='/'><BsArrowLeft /></Link>
-            <div className="fs-2 fw-bold"></div>
+            {pokemon &&
+                <div className="fs-2 fw-bold">{pokemon.name}</div>
+            }
         </div>
     );
 }
