@@ -1,3 +1,4 @@
+@use '../abstracts/colors' as *;
 @use "../abstracts/type" as *;
 
 //font-size
@@ -26,4 +27,13 @@
 .align-middle 	{ vertical-align: middle !important;}
 .align-baseline { vertical-align: baseline !important;}
 .align-bottom 	{ vertical-align: bottom !important;}
+
+
+// colors
+
+@each $key, $value in $colors {
+    .text-#{$key} {
+        color: $value !important;
+    }
+}
 

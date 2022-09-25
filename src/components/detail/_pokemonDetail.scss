@@ -1,0 +1,38 @@
+.pokemonDetail {
+    .card {
+        padding: 2rem 0;
+        border-top-left-radius: 2rem;
+        border-top-right-radius: 2rem;
+        background-color: white;
+        color: black;
+    }
+    .stats {
+
+        &__table {
+            display: table;
+            white-space: nowrap;
+        }
+        &__row {
+            display: table-row
+        }
+        &__prop,
+        &__value,
+        &__progress {
+            display: table-cell;
+            padding: .5rem .75rem;
+        }
+        &__prop {
+            opacity: .7;
+            text-transform: capitalize;
+            padding-left: 0;
+        }
+        &__value {
+            text-align: right;
+        }
+        &__progress {
+            width: 100%;
+            padding-right: 0;
+            vertical-align: middle;
+        }
+    }
+}

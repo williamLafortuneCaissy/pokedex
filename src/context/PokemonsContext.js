@@ -107,7 +107,11 @@ export const PokemonsContextProvider = ({children}) => {
                 types: fetchedData.types.map(typeObj => ({
                     name: typeObj.type.name
                 })),
-                img: fetchedData.sprites.front_default
+                img: fetchedData.sprites.front_default,
+                stats: fetchedData.stats.map(statsObj => ({
+                    prop: statsObj.stat.name,
+                    value: statsObj.base_stat
+                }))
             }
 
         } catch (error) {

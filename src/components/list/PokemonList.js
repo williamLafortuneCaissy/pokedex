@@ -37,7 +37,7 @@ const PokemonList = () => {
         <div className="container">
             <div className="pokemonGrid">
                 {pokemonContext.pokemons?.map(obj => {
-                    if(obj.data) {
+                    if(!!obj.data) {
                         const pokemon = obj.data
                         return (
                             <Link key={pokemon.name} to={`/${pokemon.name}`} className={`pokemonLi bg-${pokemon.types[0].name}`}>
