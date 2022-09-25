@@ -8,14 +8,7 @@ const PokemonList = () => {
     const pokemonContext = useContext(PokemonsContext)
 
     useEffect(() => {
-        // TODO: refactor this with context dependency (dont update context if data exists
-        const storedData = JSON.parse(localStorage.getItem('pokemonList')) || null
-        if(storedData) {
-            console.log('get from storage', storedData)
-            pokemonContext.setPokemons(storedData)
-        } else {
-            pokemonContext.getPokemons()
-        }
+        pokemonContext.getPokemons()
     }, []);
 
     // transform id into the format #000

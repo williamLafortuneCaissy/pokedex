@@ -18,9 +18,17 @@ export const PokemonsContextProvider = ({children}) => {
     async function getPokemons() {
         const storedData = JSON.parse(localStorage.getItem('pokemonList')) || null
         if (storedData) {
-            console.log('returned from storage', storedData)
-            setPokemons(storedData)
-            return
+            // safety in case we load detail page before listing
+            let needDataFetch = false;
+            storedData.forEach(pokemon => {
+                if(!pokemon.data) needDataFetch = true
+            })
+
+            if(!needDataFetch) {
+                console.log('returned from storage', storedData)
+                setPokemons(storedData)
+                return
+            }
         }
 
         const pokemonList = await fetchPokemons()
