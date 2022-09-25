@@ -1,5 +1,5 @@
 import { createContext, useEffect, useReducer, useState } from 'react'
-import pokemonReducer from '../reducers/pokemonReducer';
+import pokemonListReducer from '../components/list/pokemonListReducer';
 
 const PokemonsContext = createContext({
     // isLoading: false,
