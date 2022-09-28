@@ -1,16 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import { PokemonsContextProvider } from './context/PokemonsContext';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
-        <PokemonsContextProvider>
-            <App />
-        </PokemonsContextProvider>
-
+        <App />
     </React.StrictMode>
 );
 

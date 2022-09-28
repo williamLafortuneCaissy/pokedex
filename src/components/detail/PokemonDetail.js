@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import { BsArrowLeft } from "react-icons/bs"
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import './_pokemonDetail.scss';
 import ProgressBar from "./progressBar/ProgressBar";
 import PokemonAbout from "./about/PokemonAbout";
@@ -105,10 +105,10 @@ const PokemonDetail = () => {
                 <div className={'pokemonDetail__card'}>
                     <div className="container">
                         {/* tabs */}
-                        <div className={'tab__pannel'}>
+                        <div className={'tab__pannel p-3'}>
                             <PokemonAbout pokemonName={pokemon.name}/>
                         </div>
-                        <div className={'tab__pannel'}>
+                        <div className={'tab__pannel p-3'}>
                             <div className="stats__table">
                                 {pokemon.stats.map((stat, key) => (
                                     <div key={stat.prop} className={'stats__row'}>

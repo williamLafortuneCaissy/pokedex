@@ -1,29 +1,51 @@
-import { useContext, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import PokemonsContext from "../../context/PokemonsContext";
 import { ReactComponent as Pokeball } from '../../assets/images/pokeball.svg'
 import './_pokemonList.scss';
-import { useReducer } from "react";
-import pokemonListReducer, { pokemonListActions, pokemonListInit } from "./pokemonListReducer";
 import { fetchPokemonDetails, fetchPokemonList } from "../../actions";
 
 const PokemonList = () => {
-    const [state, dispatch] = useReducer(pokemonListReducer, pokemonListInit)
+    const [pokemonList, setPokemonList] = useState([]);
 
     useEffect(() => {
         getData();
     }, []);
 
-    async function getData() {
-        // if localStorage
-            // dispatch(type: pokemonListActions.getStorage)
-        // else
+    const getData = async () => {
+        let rawData = {};
+        const storedData = JSON.parse(localStorage.getItem('pokemons')) || [];
+
+        if(storedData.length < 20) {
             const pokemonListData = await fetchPokemonList()
-            const pokemonListDetailsData = await Promise.all(pokemonListData.results.map(pokemon => (
-                fetchPokemonDetails(pokemon.url)
+            rawData = await Promise.all(pokemonListData.results.map(pokemon => (
+                fetchPokemonDetails(pokemon.name)
             )))
 
-            dispatch({type: pokemonListActions.setList, payload: pokemonListDetailsData })
+            console.log('saved pokemonList');
+            localStorage.setItem('pokemons', JSON.stringify(rawData));
+        } else {
+            console.log('get stored pokemonList');
+            rawData = storedData;
+        }
+
+        reduceState(rawData);
+    }
+
+    const reduceState = (data) => {
+        const newState = data.map(pokemon => ({
+            id: pokemon.id,
+            name: pokemon.name,
+            types: pokemon.types.map(typeObj => ({
+                name: typeObj.type.name
+            })),
+            img: pokemon.sprites.front_default,
+            stats: pokemon.stats.map(statsObj => ({
+                prop: statsObj.stat.name,
+                value: statsObj.base_stat
+            }))
+        }))
+
+        setPokemonList(newState)
     }
 
     // transform id into the format #000
@@ -44,7 +66,7 @@ const PokemonList = () => {
     return (
         <div className="container">
             <div className="pokemonGrid">
-                {state?.map(pokemon => (
+                {pokemonList?.map(pokemon => (
                     <Link key={pokemon.name} to={`/${pokemon.name}`} className={`pokemonLi bg-${pokemon.types[0].name}`}>
                         <Pokeball className="pokemonLi__bg" />
                         <div className="pokemonLi__id">{getTransformedId(pokemon.id)}</div>
