@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ReactComponent as Pokeball } from '../../assets/images/pokeball.svg'
 import './_pokemonList.scss';
-import { fetchPokemonDetails, fetchPokemonList } from "../../actions";
+import { endpoints, handleFetch } from "../../actions";
 
 const PokemonList = () => {
     const [pokemonList, setPokemonList] = useState([]);
@@ -16,9 +16,9 @@ const PokemonList = () => {
         const storedData = JSON.parse(localStorage.getItem('pokemons')) || [];
 
         if(storedData.length < 20) {
-            const pokemonListData = await fetchPokemonList()
+            const pokemonListData = await handleFetch(endpoints.pokemon)
             rawData = await Promise.all(pokemonListData.results.map(pokemon => (
-                fetchPokemonDetails(pokemon.name)
+                handleFetch(endpoints.pokemon, pokemon.name)
             )))
 
             console.log('saved pokemonList');

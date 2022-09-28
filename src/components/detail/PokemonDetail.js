@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import './_pokemonDetail.scss';
 import ProgressBar from "./progressBar/ProgressBar";
 import PokemonAbout from "./about/PokemonAbout";
-import { fetchPokemonDetails } from "../../actions";
+import { endpoints, handleFetch } from "../../actions";
 
 const PokemonDetail = () => {
     const { pokemonName } = useParams();
@@ -20,7 +20,7 @@ const PokemonDetail = () => {
         const storedPokemon = storedData.find(pokemon => pokemon.name === pokemonName);
 
         if(!storedPokemon) {
-            rawData = await fetchPokemonDetails(pokemonName);
+            rawData = await handleFetch(endpoints.pokemon, pokemonName);
 
             const saveData = [...storedData, rawData];
             console.log('saved pokemonDetails', pokemonName);

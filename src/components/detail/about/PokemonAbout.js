@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchPokemonDetails } from '../../../actions';
+import { endpoints, handleFetch } from '../../../actions';
 import './_pokemonAbout.scss';
 
 const PokemonAbout = () => {
@@ -12,22 +12,29 @@ const PokemonAbout = () => {
     }, []);
 
     const getData = async (pokemonName) => {
-        let rawData = {};
+        let rawPokemon = {};
         const storedData = JSON.parse(localStorage.getItem('pokemons')) || [];
         const storedPokemon = storedData.find(pokemon => pokemon.name === pokemonName);
 
         if(!storedPokemon) {
-            rawData = await fetchPokemonDetails(pokemonName);
+            rawPokemon = await handleFetch(endpoints.pokemon, pokemonName);
 
-            const saveData = [...storedData, rawData];
+            const saveData = [...storedData, rawPokemon];
             console.log('saved pokemonDetails', pokemonName);
             localStorage.setItem('pokemons', JSON.stringify(saveData));
         } else {
             console.log('get stored pokemon', pokemonName);
-            rawData = storedPokemon;
+            rawPokemon = storedPokemon;
         }
 
-        reduceState(rawData);
+        // eggGroup
+        if(!rawPokemon.eggGroup) {
+            // const eggGroup = await fetchEggGroup(2);
+            // rawPokemon.eggGroup = eggGroup
+        }
+
+
+        reduceState(rawPokemon);
     }
 
     const reduceState = (data) => {
