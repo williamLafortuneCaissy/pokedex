@@ -1,21 +1,54 @@
 import { Link, useParams } from "react-router-dom";
 import { BsArrowLeft } from "react-icons/bs"
 import { useContext, useEffect, useState } from "react";
-import PokemonsContext from "../../context/PokemonsContext";
 import './_pokemonDetail.scss';
 import ProgressBar from "./progressBar/ProgressBar";
+import PokemonAbout from "./about/PokemonAbout";
+import { fetchPokemonDetails } from "../../actions";
 
 const PokemonDetail = () => {
-    const pokemonsContext = useContext(PokemonsContext)
-    const { pokemonName } = useParams()
+    const { pokemonName } = useParams();
+    const [pokemon, setPokemon] = useState();
 
     useEffect(() => {
-        pokemonsContext.getPokemon(pokemonName)
-        // // setPokemon
-        // const pokemonData = pokemonsContext.pokemons.find(pokemon => pokemon.name === pokemonName)
-        // setPokemon(pokemonData)
-        // console.log(pokemonData)
+        getData(pokemonName);
     }, []);
+
+    const getData = async (pokemonName) => {
+        let rawData = {};
+        const storedData = JSON.parse(localStorage.getItem('pokemons')) || [];
+        const storedPokemon = storedData.find(pokemon => pokemon.name === pokemonName);
+
+        if(!storedPokemon) {
+            rawData = await fetchPokemonDetails(pokemonName);
+
+            const saveData = [...storedData, rawData];
+            console.log('saved pokemonDetails', pokemonName);
+            localStorage.setItem('pokemons', JSON.stringify(saveData));
+        } else {
+            console.log('get stored pokemon', pokemonName);
+            rawData = storedPokemon;
+        }
+
+        reduceState(rawData);
+    }
+
+    const reduceState = (data) => {
+        setPokemon({
+            id: data.id,
+            name: data.name,
+            types: data.types.map(typeObj => ({
+                name: typeObj.type.name
+            })),
+            img: data.sprites.front_default,
+            stats: data.stats.map(statsObj => ({
+                prop: statsObj.stat.name,
+                value: statsObj.base_stat
+            }))
+        })
+    }
+
+
 
     // transform id into the format #000
     // ex: 1 -> returns #001
@@ -53,8 +86,6 @@ const PokemonDetail = () => {
         return value / max * 100
     }
 
-    const pokemon = pokemonsContext.pokemons.find(pokemon => pokemon.name === pokemonName)?.data
-    console.log('data', pokemon)
     return (
         <div className="bg-grass text-white pokemonDetail">
             <div className="container mb-2">
@@ -71,9 +102,12 @@ const PokemonDetail = () => {
                         <img src={pokemon.img} alt={pokemon.name} />
                     </div>
                 </div>
-                <div className={'card'}>
+                <div className={'pokemonDetail__card'}>
                     <div className="container">
                         {/* tabs */}
+                        <div className={'tab__pannel'}>
+                            <PokemonAbout pokemonName={pokemon.name}/>
+                        </div>
                         <div className={'tab__pannel'}>
                             <div className="stats__table">
                                 {pokemon.stats.map((stat, key) => (

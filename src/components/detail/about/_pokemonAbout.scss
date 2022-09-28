@@ -1,0 +1,35 @@
+.pokemonAbout {
+    &__info {
+        line-height: 1.75;
+    }
+
+    &__card {
+        padding: 1rem;
+        border-radius: .75rem;
+        box-shadow: var(--box-shadow, 0 0 10px 0 rgb(0, 0, 0, 0.2));
+        margin-block: 1rem;
+        display: flex;
+
+        &>div {
+            flex: 0 0 50%;
+        }
+    }
+
+    &__label {
+        margin-bottom: .5rem;
+        font-size: .8rem;
+        opacity: .5;
+    }
+
+    .breeding {
+
+        &__info {
+            display: flex;
+            line-height: 1.75;
+        }
+        &__label {
+            flex: 0 1 40%;
+        }
+    }
+
+}

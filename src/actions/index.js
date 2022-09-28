@@ -16,12 +16,12 @@ export async function fetchPokemonList() {
     //     setIsLoading(false)
 }
 
-export async function fetchPokemonDetails(url) {
+export async function fetchPokemonDetails(idOrName) {
     //     setIsLoading(true)
     //     setError(null)
 
     try {
-        const response = await fetch(url)
+        const response = await fetch("https://pokeapi.co/api/v2/pokemon/"+idOrName)
 
         if (!response.ok) throw new Error('Could not load pokemons')
         const fetchedData = await response.json()
