@@ -14,32 +14,51 @@ const PokemonAbout = () => {
     const getData = async (pokemonName) => {
         let rawPokemon = {};
         const storedData = JSON.parse(localStorage.getItem('pokemons')) || [];
-        const storedPokemon = storedData.find(pokemon => pokemon.name === pokemonName);
+        const pokemonFound = storedData.find(pokemon => pokemon.name === pokemonName);
 
-        if(!storedPokemon) {
+        if(!pokemonFound) {
             rawPokemon = await handleFetch(endpoints.pokemon, pokemonName);
 
-            const saveData = [...storedData, rawPokemon];
-            console.log('saved pokemonDetails', pokemonName);
-            localStorage.setItem('pokemons', JSON.stringify(saveData));
         } else {
             console.log('get stored pokemon', pokemonName);
-            rawPokemon = storedPokemon;
+            rawPokemon = pokemonFound;
         }
 
-        // eggGroup
-        if(!rawPokemon.eggGroup) {
-            // const eggGroup = await fetchEggGroup(2);
-            // rawPokemon.eggGroup = eggGroup
+        // pokemon-species
+        if(!rawPokemon.species.data) {
+            const species = await handleFetch(endpoints.pokemonSpecies, rawPokemon.species.name);
+            rawPokemon.species.data = species
+
         }
 
-
+        updateStorage(rawPokemon)
         reduceState(rawPokemon);
+    }
+
+    // update storage stored by pokemonId
+    const updateStorage = (updatedPokemon) => {
+        let saveData = [];
+        const storedData = JSON.parse(localStorage.getItem('pokemons')) || [];
+        const pokemonFound = storedData.find(pokemon => pokemon.name === updatedPokemon.name);
+        if(JSON.stringify(pokemonFound) === JSON.stringify(updatedPokemon)) return;
+
+        if(pokemonFound) {
+            saveData = storedData.map(storedPokemon => (
+                storedPokemon.name === updatedPokemon.name ? updatedPokemon : storedPokemon
+            ));
+        } else {
+            saveData = [...storedData, updatedPokemon];
+        }
+
+        // sort by id asc
+        saveData.sort((a, b) => (a.id - b.id))
+
+        console.log('saved new ', updatedPokemon)
+        localStorage.setItem('pokemons', JSON.stringify(saveData));
     }
 
     const reduceState = (data) => {
         const heightCm = data.height * 10; // dataHeight is in decimeter
-
         const weightKg = data.weight * .1; // dataWeight is in hectogram
 
         setAbout({
@@ -47,12 +66,7 @@ const PokemonAbout = () => {
             encounter: '',
             height: heightCm,
             weight: weightKg,
-            breeding: {
-                male: 0,
-                female: 0,
-                eggGroup: "",
-                eggCycle: "",
-            }
+            eggGroups: data.species.data.egg_groups.map(eggGroup => eggGroup.name),
         })
     }
 
@@ -78,7 +92,8 @@ const PokemonAbout = () => {
                     </div>
                     <div className="breeding__info">
                         <div className="breeding__label text-muted">Egg Groups</div>
-                        <div className="fw-bold">value</div>
+                        <div className="fw-bold">{about.eggGroups.join(', ')}
+                        </div>
                     </div>
                     <div className="breeding__info">
                         <div className="breeding__label text-muted">Egg Cycle</div>

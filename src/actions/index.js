@@ -21,5 +21,6 @@ export async function handleFetch(endpoint, idOrName = '') {
 }
 
 export const endpoints = {
-    pokemon: 'pokemon'
+    pokemon: 'pokemon',
+    pokemonSpecies: 'pokemon-species',
 }
