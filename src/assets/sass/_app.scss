@@ -3,11 +3,13 @@
 .app {
     height: 100vh;
     overflow: auto;
-    display: grid;
-    place-content: center;
+
+    @media screen and (min-width: map-get($mqs, 'sm')) {
+        display: grid;
+    }
 
     &__frame {
-        height: 100vh;
+        height: 100%;
 
         @media screen and (min-width: map-get($mqs, 'sm')) {
             max-width: 450px;
