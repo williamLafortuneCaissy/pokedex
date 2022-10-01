@@ -5,3 +5,7 @@
 body {
     font-family: 'roboto', sans-serif;
 }
+
+[role="button"]:hover {
+    cursor: pointer;
+}
