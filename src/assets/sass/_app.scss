@@ -1,0 +1,23 @@
+@use "./abstracts/mediaqueries" as *;
+
+.app {
+    height: 100vh;
+    overflow: auto;
+    display: grid;
+    place-content: center;
+
+    &__frame {
+        height: 100vh;
+
+        @media screen and (min-width: map-get($mqs, 'sm')) {
+            max-width: 450px;
+            max-height: 896px;
+            height: 100%;
+            width: 100%;
+            border: 15px solid #111;
+            border-radius: 30px;
+            overflow: auto;
+            margin: auto;
+        }
+    }
+}
