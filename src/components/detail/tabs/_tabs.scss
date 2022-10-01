@@ -1,9 +1,5 @@
 @use '../../../assets/sass/abstracts/colors' as *;
 
-.tabs, .pannels {
-    --tab-transition: all .2s ease-in-out;
-}
-
 .tabs {
     // overflow: auto;
     // max-width: 100%;
@@ -20,7 +16,6 @@
         color: $muted;
         font-weight: bold;
         position: relative;
-        transition: var(--tab-transition);
 
         &::after {
             content: "";
@@ -28,7 +23,6 @@
             inset: auto 0 -1px 0;
             height: 0;
             background-color: cornflowerblue;
-            transition: var(--tab-transition);
         }
 
         &.active {
@@ -41,22 +35,7 @@
         }
     }
 
-
-}
-.pannels {
-    display: grid;
-    &>* {
-        grid-row: -1 / -1;
-        grid-column: -1 / -1;
-    }
-
-    &__item {
+    &__pannel {
         padding: 1rem;
-        transition: var(--tab-transition);
-        opacity: 1;
-
-        &:not(.active) {
-            opacity: 0;
-        }
     }
 }

@@ -32,7 +32,7 @@ const PokemonAbout = () => {
         }
 
         updateStorage(rawPokemon)
-        reduceState(rawPokemon);
+        dispatch(rawPokemon);
     }
 
     // update storage stored by pokemonId
@@ -57,7 +57,7 @@ const PokemonAbout = () => {
         localStorage.setItem('pokemons', JSON.stringify(saveData));
     }
 
-    const reduceState = (data) => {
+    const dispatch = (data) => {
         const heightCm = data.height * 10; // dataHeight is in decimeter
         const weightKg = data.weight * .1; // dataWeight is in hectogram
 

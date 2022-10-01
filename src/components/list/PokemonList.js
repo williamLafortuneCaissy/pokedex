@@ -28,10 +28,10 @@ const PokemonList = () => {
             rawData = storedData;
         }
 
-        reduceState(rawData);
+        dispatch(rawData);
     }
 
-    const reduceState = (data) => {
+    const dispatch = (data) => {
         const newState = data.map(pokemon => ({
             id: pokemon.id,
             name: pokemon.name,

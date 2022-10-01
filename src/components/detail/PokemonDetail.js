@@ -2,7 +2,7 @@ import { Link, useParams } from "react-router-dom";
 import { BsArrowLeft } from "react-icons/bs"
 import { useEffect, useState } from "react";
 import './_pokemonDetail.scss';
-import { endpoints, handleFetch } from "../../actions";
+import { getPokemonDetails } from "../../actions";
 import PokemonTabs from "./tabs/PokemonTabs";
 
 const PokemonDetail = () => {
@@ -10,29 +10,10 @@ const PokemonDetail = () => {
     const [pokemon, setPokemon] = useState();
 
     useEffect(() => {
-        getData(pokemonName);
+        getPokemonDetails(dispatch, pokemonName);
     }, [pokemonName]);
 
-    const getData = async (pokemonName) => {
-        let rawData = {};
-        const storedData = JSON.parse(localStorage.getItem('pokemons')) || [];
-        const storedPokemon = storedData.find(pokemon => pokemon.name === pokemonName);
-
-        if(!storedPokemon) {
-            rawData = await handleFetch(endpoints.pokemon, pokemonName);
-
-            const saveData = [...storedData, rawData];
-            console.log('saved pokemonDetails', pokemonName);
-            localStorage.setItem('pokemons', JSON.stringify(saveData));
-        } else {
-            console.log('get stored pokemon', pokemonName);
-            rawData = storedPokemon;
-        }
-
-        reduceState(rawData);
-    }
-
-    const reduceState = (data) => {
+    const dispatch = (data) => {
         setPokemon({
             id: data.id,
             name: data.name,
@@ -81,7 +62,7 @@ const PokemonDetail = () => {
                     </div>
                     <div className={'pokemonDetail__card'}>
                         <div className="container">
-                            <PokemonTabs stats={pokemon.stats}/>
+                            <PokemonTabs />
                         </div>
                     </div>
                 </>
