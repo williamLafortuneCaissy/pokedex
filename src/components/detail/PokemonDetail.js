@@ -10,8 +10,13 @@ const PokemonDetail = () => {
     const [pokemon, setPokemon] = useState();
 
     useEffect(() => {
-        getPokemonDetails(dispatch, pokemonName);
+        getData();
     }, [pokemonName]);
+
+    const getData = async () => {
+        const pokemonDetails = await getPokemonDetails(pokemonName);
+        dispatch(pokemonDetails);
+    }
 
     const dispatch = (data) => {
         setPokemon({

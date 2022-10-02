@@ -2,21 +2,25 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { getPokemonDetails } from "../../../actions";
-import ProgressBar from "../progressBar/ProgressBar";
+import ProgressBar from "./progressBar/ProgressBar";
 
 const PokemonStats = () => {
     const { pokemonName } = useParams();
     const [stats, setStats] = useState();
 
     useEffect(() => {
-        getPokemonDetails(dispatch, pokemonName);
+        getData(pokemonName)
     }, [pokemonName]);
+
+    const getData = async (pokemonName) => {
+        const data = await getPokemonDetails(pokemonName);
+        dispatch(data);
+    }
 
     const dispatch = (data) => {
 
         // return transformed prop name if necessary
         const renameProp = (prop) => {
-            console.log(prop)
             switch (prop) {
                 case 'special-attack':
                     return 'sp. attack'
@@ -42,8 +46,6 @@ const PokemonStats = () => {
         const max = 150
         return value / max * 100
     }
-
-    console.log(stats);
 
     return (
         <div className="stats__table">

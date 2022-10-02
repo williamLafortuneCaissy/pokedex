@@ -2,6 +2,7 @@
 export const endpoints = {
     pokemon: 'pokemon',
     pokemonSpecies: 'pokemon-species',
+    evolutionChain: 'evolution-chain',
 }
 
 // id or name is the id / name of the endpoint, not always the pokemon
@@ -26,23 +27,61 @@ export async function handleFetch(endpoint, idOrName = '') {
     //     setIsLoading(false)
 }
 
+function saveToStorage(pokemon) {
+    let newStorage = [];
+    const oldStorage = JSON.parse(localStorage.getItem('pokemons')) || [];
 
-export async function getPokemonDetails(dispatch, pokemonName) {
-    let rawData = {};
-    const storedData = JSON.parse(localStorage.getItem('pokemons')) || [];
-    const storedPokemon = storedData.find(pokemon => pokemon.name === pokemonName);
-
-    if(!storedPokemon) {
-        rawData = await handleFetch(endpoints.pokemon, pokemonName);
-
-        const saveData = [...storedData, rawData];
-        console.log('saved pokemonDetails', pokemonName);
-        localStorage.setItem('pokemons', JSON.stringify(saveData));
+    if(oldStorage.find(storedPokemon => storedPokemon.name === pokemon.name)) {
+        newStorage = oldStorage.map(storedPokemon => storedPokemon.name === pokemon.name ? pokemon : storedPokemon)
     } else {
-        console.log('get stored pokemon', pokemonName);
-        rawData = storedPokemon;
+        newStorage = [...oldStorage, pokemon];
     }
 
-    dispatch(rawData);
+    // sort by id asc
+    newStorage.sort((a, b) => (a.id - b.id))
+    localStorage.setItem('pokemons', JSON.stringify(newStorage));
+}
+
+
+export async function getPokemonDetails(pokemonName) {
+    const storedData = JSON.parse(localStorage.getItem('pokemons')) || [];
+    const rawPokemon = storedData.find(pokemon => pokemon.name === pokemonName) || await handleFetch(endpoints.pokemon, pokemonName);
+
+    saveToStorage(rawPokemon);
+    return rawPokemon
+}
+
+export async function getSpecies(pokemonName) {
+    const rawData = JSON.parse(localStorage.getItem('pokemons')) || [];
+    const rawPokemon = rawData.find(pokemon => pokemon.name === pokemonName) || await handleFetch(endpoints.pokemon, pokemonName);
+
+    // url is removed when we save species data in storage
+    const species = rawPokemon.species.url ?
+        await handleFetch(endpoints.pokemonSpecies, rawPokemon.species.name) :
+        rawPokemon.species
+
+    saveToStorage(rawPokemon);
+    return species
+}
+
+
+export async function getEvolutionChain(pokemonName) {
+    let rawPokemon = await getPokemonDetails(pokemonName);
+
+    if(rawPokemon.species.url) {
+        rawPokemon.species = await getSpecies(pokemonName);
+    }
+
+    if(rawPokemon.species.evolution_chain.url) {
+        // evolution_chain endpoint absolutely needs id, we only have url.
+        const evolutionChainUrl = new URL(rawPokemon.species.evolution_chain.url)
+        // get "1" in "https://pokeapi.co/api/v2/evolution-chain/1/"
+        const evolutionChainId = evolutionChainUrl.pathname.split('/').slice(-2)[0];
+
+        rawPokemon.species.evolution_chain = await handleFetch(endpoints.evolutionChain, evolutionChainId);
+    }
+
+    saveToStorage(rawPokemon);
+    return rawPokemon.species.evolution_chain;
 }
 

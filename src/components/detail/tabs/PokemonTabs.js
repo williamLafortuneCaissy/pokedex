@@ -1,5 +1,6 @@
 import { useState } from "react";
 import PokemonAbout from "../about/PokemonAbout";
+import PokemonEvolutions from "../evolutions/PokemonEvolutions";
 import PokemonStats from "../stats/PokemonStats";
 import './_tabs.scss';
 
@@ -18,12 +19,12 @@ const tabs = [
     },
     {
         name: 'Evolutions',
-        component: <>PokemonEvolutions</>
+        component: <PokemonEvolutions />
     }
 ]
 
 const PokemonTabs = () => {
-    const [activeTab, setActiveTab] = useState(tabs[0].name);
+    const [activeTab, setActiveTab] = useState(tabs[3].name);
     const tabPannel = tabs.find(tab => tab.name === activeTab).component;
 
     const handleTabClick = (tabName) => {

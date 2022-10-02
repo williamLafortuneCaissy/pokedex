@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { endpoints, handleFetch } from '../../../actions';
+import { getPokemonDetails, getSpecies } from '../../../actions';
 import './_pokemonAbout.scss';
 
 const PokemonAbout = () => {
@@ -12,61 +12,25 @@ const PokemonAbout = () => {
     }, []);
 
     const getData = async (pokemonName) => {
-        let rawPokemon = {};
-        const storedData = JSON.parse(localStorage.getItem('pokemons')) || [];
-        const pokemonFound = storedData.find(pokemon => pokemon.name === pokemonName);
+        let data = await getPokemonDetails(pokemonName);
 
-        if(!pokemonFound) {
-            rawPokemon = await handleFetch(endpoints.pokemon, pokemonName);
-
-        } else {
-            console.log('get stored pokemon', pokemonName);
-            rawPokemon = pokemonFound;
+        if(data.species.url) {
+            data.species = await getSpecies(data.species.name);
         }
 
-        // pokemon-species
-        if(!rawPokemon.species.data) {
-            const species = await handleFetch(endpoints.pokemonSpecies, rawPokemon.species.name);
-            rawPokemon.species.data = species
-
-        }
-
-        updateStorage(rawPokemon)
-        dispatch(rawPokemon);
-    }
-
-    // update storage stored by pokemonId
-    const updateStorage = (updatedPokemon) => {
-        let saveData = [];
-        const storedData = JSON.parse(localStorage.getItem('pokemons')) || [];
-        const pokemonFound = storedData.find(pokemon => pokemon.name === updatedPokemon.name);
-        if(JSON.stringify(pokemonFound) === JSON.stringify(updatedPokemon)) return;
-
-        if(pokemonFound) {
-            saveData = storedData.map(storedPokemon => (
-                storedPokemon.name === updatedPokemon.name ? updatedPokemon : storedPokemon
-            ));
-        } else {
-            saveData = [...storedData, updatedPokemon];
-        }
-
-        // sort by id asc
-        saveData.sort((a, b) => (a.id - b.id))
-
-        console.log('saved new ', updatedPokemon)
-        localStorage.setItem('pokemons', JSON.stringify(saveData));
+        dispatch(data);
     }
 
     const dispatch = (data) => {
-        const heightCm = data.height * 10; // dataHeight is in decimeter
-        const weightKg = data.weight * .1; // dataWeight is in hectogram
+        const heightCm = data.height * 10; // data.height is in decimeter
+        const weightKg = data.weight * .1; // data.weight is in hectogram
 
         setAbout({
             name: data.name,
             encounter: '',
             height: heightCm,
             weight: weightKg,
-            eggGroups: data.species.data.egg_groups.map(eggGroup => eggGroup.name),
+            eggGroups: data.species.egg_groups.map(eggGroup => eggGroup.name),
         })
     }
 
