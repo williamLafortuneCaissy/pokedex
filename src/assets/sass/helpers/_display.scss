@@ -10,14 +10,18 @@
 // flex utilities
 @each $key, $value in $align {
 	.align-items-#{$key} {
-		align-items: $value;
+		align-items: $value !important;
 	}
 	.align-self-#{$key} {
-		align-self: $value;
+		align-self: $value !important;
 	}
 }
 @each $key, $value in $align {
 	.justify-content-#{$key} {
-		justify-content: $value;
+		justify-content: $value !important;
 	}
+}
+
+.flex-grow-1 {
+	flex-grow: 1 !important;
 }

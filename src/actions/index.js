@@ -45,7 +45,15 @@ function saveToStorage(pokemon) {
 
 export async function getPokemonDetails(pokemonName) {
     const storedData = JSON.parse(localStorage.getItem('pokemons')) || [];
-    const rawPokemon = storedData.find(pokemon => pokemon.name === pokemonName) || await handleFetch(endpoints.pokemon, pokemonName);
+    const storedPokemon = storedData.find(pokemon => pokemon.name === pokemonName);
+    let rawPokemon = {}
+
+    if(storedPokemon) {
+        console.log('get from storage', storedPokemon.name)
+        rawPokemon = storedPokemon
+    } else {
+        rawPokemon = await handleFetch(endpoints.pokemon, pokemonName);
+    }
 
     saveToStorage(rawPokemon);
     return rawPokemon
@@ -63,7 +71,6 @@ export async function getSpecies(pokemonName) {
     saveToStorage(rawPokemon);
     return species
 }
-
 
 export async function getEvolutionChain(pokemonName) {
     let rawPokemon = await getPokemonDetails(pokemonName);
