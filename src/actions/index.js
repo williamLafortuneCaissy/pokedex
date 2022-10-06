@@ -6,21 +6,22 @@ export const endpoints = {
 }
 
 // id or name is the id / name of the endpoint, not always the pokemon
-export async function handleFetch(endpoint, idOrName = '') {
+export async function handleFetch(endpoint, idOrName = '', params='') {
     //     setIsLoading(true)
     //     setError(null)
 
     try {
-        const response = await fetch(`https://pokeapi.co/api/v2/${endpoint}/${idOrName}`)
 
-        if (!response.ok) throw new Error('Could not load ', endpoint)
-        const fetchedData = await response.json()
+        const response = await fetch(`https://pokeapi.co/api/v2/${endpoint}/${idOrName}/`);
 
-        console.log('fetched', endpoint, fetchedData)
-        return fetchedData
+        if (!response.ok) throw new Error('Could not load ', endpoint);
+        const fetchedData = await response.json();
+
+        console.log('fetched', endpoint, fetchedData);
+        return fetchedData;
 
     } catch (error) {
-        console.log(error)
+        console.log(error);
         // setError(error.message)
     }
 
@@ -49,14 +50,14 @@ export async function getPokemonDetails(pokemonName) {
     let rawPokemon = {}
 
     if(storedPokemon) {
-        console.log('get from storage', storedPokemon.name)
-        rawPokemon = storedPokemon
+        console.log('get from storage', storedPokemon.name);
+        rawPokemon = storedPokemon;
     } else {
         rawPokemon = await handleFetch(endpoints.pokemon, pokemonName);
     }
 
     saveToStorage(rawPokemon);
-    return rawPokemon
+    return rawPokemon;
 }
 
 export async function getSpecies(pokemonName) {
@@ -66,10 +67,10 @@ export async function getSpecies(pokemonName) {
     // url is removed when we save species data in storage
     const species = rawPokemon.species.url ?
         await handleFetch(endpoints.pokemonSpecies, rawPokemon.species.name) :
-        rawPokemon.species
+        rawPokemon.species;
 
     saveToStorage(rawPokemon);
-    return species
+    return species;
 }
 
 export async function getEvolutionChain(pokemonName) {
@@ -81,7 +82,7 @@ export async function getEvolutionChain(pokemonName) {
 
     if(rawPokemon.species.evolution_chain.url) {
         // evolution_chain endpoint absolutely needs id, we only have url.
-        const evolutionChainUrl = new URL(rawPokemon.species.evolution_chain.url)
+        const evolutionChainUrl = new URL(rawPokemon.species.evolution_chain.url);
         // get "1" in "https://pokeapi.co/api/v2/evolution-chain/1/"
         const evolutionChainId = evolutionChainUrl.pathname.split('/').slice(-2)[0];
 
