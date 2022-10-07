@@ -1,45 +1,65 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getEvolutionChain, getPokemonDetails } from "../../../actions";
+import { endpoints, getEvolutionChain, getPokemonDetails, handleFetch } from "../../../actions";
 import { BsArrowRight } from "react-icons/bs"
 import EvolutionChain from "./EvolutionChain";
 
 const PokemonEvolutions = () => {
     const { pokemonName } = useParams();
     const [evolutionChains, setEvolutionChains] = useState([]);
-    console.log(evolutionChains)
     useEffect(() => {
         getData()
     }, []);
 
+    /*
+        getData needs to get the evolution chain, extract the name of everypokemon,
+        then checks which pokemon we have in storage, and fetch the others
+    */
     const getData = async () => {
-        let evolutionChainsData = await getEvolutionChain(pokemonName);
-        let pokemons = [];
+        const evolutionChainsData = await getEvolutionChain(pokemonName);
+        let pokemonNames = []; // used to check if we have data in storage || fetching
+        let pokemonsData = []; // raw data that we dispatch
 
-        // TODO: UPDATE getPokemonDetails so that we can get an array of data
-        const getEvolutionsData = async (chain) => {
-            pokemons.push(await getPokemonDetails(chain.species.name));
-
+        // compiles every pokemon in the evolution chain, in a simple array of pokemonName
+        const extractPokemonUrl = (chain) => {
+            pokemonNames.push(chain.species.name);
             if (!chain.evolves_to.length) return
 
             chain.evolves_to.map(evolvesChain => (
-                getEvolutionsData(evolvesChain)
+                extractPokemonUrl(evolvesChain)
             ))
         };
-        await getEvolutionsData(evolutionChainsData.chain);
+        extractPokemonUrl(evolutionChainsData.chain);
 
-        dispatch(evolutionChainsData, pokemons);
+
+        const storedPokemons = JSON.parse(localStorage.getItem('pokemons')) || [];
+        const storedPonemonName = storedPokemons.map(storedPokemon => storedPokemon.name);
+
+        // get existing pokemon data from storage
+        pokemonNames.map(pokemonName => {
+            if (storedPonemonName.includes(pokemonName)) {
+                pokemonsData.push(storedPokemons.find(storedPokemon => storedPokemon.name === pokemonName));
+            }
+        })
+
+        // fetch other pokemons
+        const filteredPokemonNames = pokemonNames.filter(pokemonName => !storedPonemonName.includes(pokemonName));
+        const remainingPokemons = await Promise.all(filteredPokemonNames.map(pokemon => (
+            handleFetch(endpoints.pokemon, pokemon)
+        )))
+
+        pokemonsData = pokemonsData.concat(remainingPokemons);
+        dispatch(evolutionChainsData, pokemonsData);
     }
 
-    const dispatch = (evolutionChainsData, pokemons) => {
-
+    const dispatch = (evolutionChainsData, pokemonsData) => {
         const newState = [];
         const recursiveReduce = (chain) => {
-            console.log(pokemons, pokemons.find(pokemon => pokemon.name === chain.species.name));
+
             const prevPokemon = {
                 name: chain.species.name,
-                img: pokemons.find(pokemon => pokemon.name === chain.species.name).sprites.front_default,
+                img: pokemonsData.find(pokemon => pokemon.name === chain.species.name).sprites.front_default,
             };
             let lvl = 0;
             let nextPokemon = {};
@@ -48,10 +68,10 @@ const PokemonEvolutions = () => {
                 lvl = subChain.evolution_details[0].min_level || 0;
                 nextPokemon = {
                     name: subChain.species.name,
-                    img: pokemons.find(pokemon => pokemon.name === subChain.species.name).sprites.front_default,
+                    img: pokemonsData.find(pokemon => pokemon.name === subChain.species.name).sprites.front_default,
                 }
 
-                newState.push({prevPokemon, lvl, nextPokemon});
+                newState.push({ prevPokemon, lvl, nextPokemon });
                 console.log(subChain)
                 if (subChain.evolves_to.length) recursiveReduce(subChain)
             });
