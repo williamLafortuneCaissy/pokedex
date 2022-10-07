@@ -38,7 +38,6 @@ const PokemonTabs = () => {
         setActiveTab(tabName);
     }
 
-    console.log('reload tabs');
     return (
         <div className="tabs">
             <ul className="tabs__list">

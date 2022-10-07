@@ -48,7 +48,6 @@ const PokemonDetail = () => {
         return transformedId
     }
 
-    console.log('reload Detail');
     return (
         <div className="bg-grass text-white pokemonDetail">
             <div className="container mb-2">
