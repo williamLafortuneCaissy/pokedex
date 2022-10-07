@@ -10,13 +10,13 @@ const PokemonDetail = () => {
     const [pokemon, setPokemon] = useState();
 
     useEffect(() => {
+        const getData = async () => {
+            const pokemonDetails = await getPokemonDetails(pokemonName);
+            transformState(pokemonDetails);
+        }
         getData();
     }, [pokemonName]);
 
-    const getData = async () => {
-        const pokemonDetails = await getPokemonDetails(pokemonName);
-        transformState(pokemonDetails);
-    }
 
     const transformState = (data) => {
         setPokemon({
@@ -48,7 +48,7 @@ const PokemonDetail = () => {
         return transformedId
     }
 
-
+    console.log('reload Detail');
     return (
         <div className="bg-grass text-white pokemonDetail">
             <div className="container mb-2">

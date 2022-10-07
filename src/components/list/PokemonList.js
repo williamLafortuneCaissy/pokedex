@@ -8,28 +8,28 @@ const PokemonList = () => {
     const [pokemonList, setPokemonList] = useState([]);
 
     useEffect(() => {
+        const getData = async () => {
+            let rawData = {};
+            const storedData = JSON.parse(localStorage.getItem('pokemons')) || [];
+
+            if(storedData.length < 20) {
+                const pokemonListData = await handleFetch(endpoints.pokemon)
+                rawData = await Promise.all(pokemonListData.results.map(pokemon => (
+                    handleFetch(endpoints.pokemon, pokemon.name)
+                )))
+
+                console.log('saved pokemonList');
+                localStorage.setItem('pokemons', JSON.stringify(rawData));
+            } else {
+                console.log('get stored pokemonList');
+                rawData = storedData;
+            }
+
+            transformState(rawData);
+        }
         getData();
     }, []);
 
-    const getData = async () => {
-        let rawData = {};
-        const storedData = JSON.parse(localStorage.getItem('pokemons')) || [];
-
-        if(storedData.length < 20) {
-            const pokemonListData = await handleFetch(endpoints.pokemon)
-            rawData = await Promise.all(pokemonListData.results.map(pokemon => (
-                handleFetch(endpoints.pokemon, pokemon.name)
-            )))
-
-            console.log('saved pokemonList');
-            localStorage.setItem('pokemons', JSON.stringify(rawData));
-        } else {
-            console.log('get stored pokemonList');
-            rawData = storedData;
-        }
-
-        transformState(rawData);
-    }
 
     const transformState = (data) => {
         const newState = data.map(pokemon => ({

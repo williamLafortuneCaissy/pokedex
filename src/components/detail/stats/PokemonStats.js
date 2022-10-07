@@ -9,13 +9,13 @@ const PokemonStats = () => {
     const [stats, setStats] = useState();
 
     useEffect(() => {
+        const getData = async (pokemonName) => {
+            const data = await getPokemonDetails(pokemonName);
+            transformState(data);
+        }
         getData(pokemonName)
     }, [pokemonName]);
 
-    const getData = async (pokemonName) => {
-        const data = await getPokemonDetails(pokemonName);
-        transformState(data);
-    }
 
     const transformState = (data) => {
 
@@ -24,17 +24,12 @@ const PokemonStats = () => {
             switch (prop) {
                 case 'special-attack':
                     return 'sp. attack'
-                    break;
                 case 'special-defense':
                     return 'sp. defense'
-                    break;
-
                 default:
                     return prop
-                    break;
             }
         }
-
 
         setStats(data.stats.map(statsObj => ({
             prop: renameProp(statsObj.stat.name),

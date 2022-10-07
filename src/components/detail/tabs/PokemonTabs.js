@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import PokemonAbout from "../about/PokemonAbout";
 import PokemonEvolutions from "../evolutions/PokemonEvolutions";
 import PokemonStats from "../stats/PokemonStats";
@@ -23,14 +24,21 @@ const tabs = [
     }
 ]
 
+const initialTab = tabs[0].name
 const PokemonTabs = () => {
-    const [activeTab, setActiveTab] = useState(tabs[3].name);
+    const [activeTab, setActiveTab] = useState(initialTab);
     const tabPannel = tabs.find(tab => tab.name === activeTab).component;
+    const { pokemonName } = useParams();
+
+    useEffect(() => {
+        setActiveTab(initialTab)
+    }, [pokemonName]);
 
     const handleTabClick = (tabName) => {
         setActiveTab(tabName);
     }
 
+    console.log('reload tabs');
     return (
         <div className="tabs">
             <ul className="tabs__list">

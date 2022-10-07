@@ -8,18 +8,18 @@ const PokemonAbout = () => {
     const [about, setAbout] = useState(null);
 
     useEffect(() => {
-        getData(pokemonName)
-    }, []);
+        const getData = async (pokemonName) => {
+            let data = await getPokemonDetails(pokemonName);
 
-    const getData = async (pokemonName) => {
-        let data = await getPokemonDetails(pokemonName);
+            if(data.species.url) {
+                data.species = await getSpecies(data.species.name);
+            }
 
-        if(data.species.url) {
-            data.species = await getSpecies(data.species.name);
+            transformState(data);
         }
+        getData(pokemonName)
+    }, [pokemonName]);
 
-        transformState(data);
-    }
 
     const transformState = (data) => {
         const heightCm = data.height * 10; // data.height is in decimeter
