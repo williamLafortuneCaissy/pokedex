@@ -18,10 +18,10 @@ const PokemonAbout = () => {
             data.species = await getSpecies(data.species.name);
         }
 
-        dispatch(data);
+        transformState(data);
     }
 
-    const dispatch = (data) => {
+    const transformState = (data) => {
         const heightCm = data.height * 10; // data.height is in decimeter
         const weightKg = data.weight * .1; // data.weight is in hectogram
 

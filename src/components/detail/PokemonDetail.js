@@ -15,10 +15,10 @@ const PokemonDetail = () => {
 
     const getData = async () => {
         const pokemonDetails = await getPokemonDetails(pokemonName);
-        dispatch(pokemonDetails);
+        transformState(pokemonDetails);
     }
 
-    const dispatch = (data) => {
+    const transformState = (data) => {
         setPokemon({
             id: data.id,
             name: data.name,

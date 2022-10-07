@@ -50,10 +50,10 @@ const PokemonEvolutions = () => {
         )))
 
         pokemonsData = pokemonsData.concat(remainingPokemons);
-        dispatch(evolutionChainsData, pokemonsData);
+        transformState(evolutionChainsData, pokemonsData);
     }
 
-    const dispatch = (evolutionChainsData, pokemonsData) => {
+    const transformState = (evolutionChainsData, pokemonsData) => {
         const newState = [];
         const recursiveReduce = (chain) => {
 
@@ -72,7 +72,6 @@ const PokemonEvolutions = () => {
                 }
 
                 newState.push({ prevPokemon, lvl, nextPokemon });
-                console.log(subChain)
                 if (subChain.evolves_to.length) recursiveReduce(subChain)
             });
         }

@@ -14,10 +14,10 @@ const PokemonStats = () => {
 
     const getData = async (pokemonName) => {
         const data = await getPokemonDetails(pokemonName);
-        dispatch(data);
+        transformState(data);
     }
 
-    const dispatch = (data) => {
+    const transformState = (data) => {
 
         // return transformed prop name if necessary
         const renameProp = (prop) => {
