@@ -1,8 +1,6 @@
 @use "./abstracts/mediaqueries" as *;
 
 .app {
-    height: 100vh;
-    overflow: auto;
 
     @media screen and (min-width: map-get($mqs, 'sm')) {
         display: grid;

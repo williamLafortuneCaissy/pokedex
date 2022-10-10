@@ -1,23 +1,44 @@
-$grass: #49D0B0;
-$bug: #49D0B0;
-$fire: #FC6C6D;
-$water: #76BEFE;
-$thunder: #FFE57F;
-$normal: #b9b9b9;
-$psy: #785389;
-$earth: #B2736E;
+$normal: #6D6D4E;
+$fire: #F08030;
+$fighting: #C03028;
+$water: #6890F0;
+$flying: #A890F0;
+$grass: #78C850;
+$poison: #A040A0;
+$electric: #F8D030;
+$ground: #E0C068;
+$psychic: #F85888;
+$rock: #B8A038;
+$ice: #98D8D8;
+$bug: #A8B820;
+$dragon: #7038F8;
+$ghost: #705898;
+$dark: #705848;
+$steel: #B8B8D0;
+$fairy: #EE99AC;
+// $???: #68A090;
 $white: #fff;
 $muted: #bbb;
 
 $colors: (
-	'bug': $bug,
-	'grass': $grass,
-    'fire': $fire,
-    'water': $water,
     'normal': $normal,
-    'thunder': $thunder,
-    'psy': $psy,
-    'earth': $earth,
+    'fire': $fire,
+    'fighting': $fighting,
+    'water': $water,
+    'flying': $flying,
+	'grass': $grass,
+    'poison': $poison,
+    'electric': $electric,
+    'ground': $ground,
+    'psychic': $psychic,
+    'rock': $rock,
+    'ice': $ice,
+    'bug': $bug,
+    'dragon': $dragon,
+    'ghost': $ghost,
+    'dark': $dark,
+    'steel': $steel,
+    'fairy': $fairy,
     'white': $white,
     'muted': $muted,
 );

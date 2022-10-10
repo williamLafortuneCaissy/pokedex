@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getPokemonDetails, getSpecies } from '../../../actions';
+import { getPokemonDetails, getSpecies, handleFetchUrl } from '../../../actions';
 import './_pokemonAbout.scss';
 
 const PokemonAbout = () => {
@@ -14,7 +14,7 @@ const PokemonAbout = () => {
             if(data.species.url) {
                 data.species = await getSpecies(data.species.name);
             }
-
+            //TODO: add abilities
             transformState(data);
         }
         getData(pokemonName)
@@ -38,7 +38,7 @@ const PokemonAbout = () => {
         <>
             {about &&
                 <div className="pokemonAbout">
-                    <p className="pokemonAbout__info">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Optio hic numquam quas temporibus aperiam ad distinctio eos. Maxime quibusdam sequi explicabo temporibus, debitis expedita a in ut neque, porro modi!</p>
+                    {/* <p className="pokemonAbout__info">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Optio hic numquam quas temporibus aperiam ad distinctio eos. Maxime quibusdam sequi explicabo temporibus, debitis expedita a in ut neque, porro modi!</p> */}
                     <div className="pokemonAbout__card">
                         <div>
                             <div className="pokemonAbout__label text-muted">Height</div>

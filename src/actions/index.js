@@ -6,6 +6,28 @@ export const endpoints = {
 }
 
 // id or name is the id / name of the endpoint, not always the pokemon
+export async function handleFetchUrl(url) {
+    //     setIsLoading(true)
+    //     setError(null)
+
+    try {
+
+        const response = await fetch(url);
+
+        if (!response.ok) throw new Error('Could not load ', url);
+        const fetchedData = await response.json();
+
+        console.log('fetched', url, fetchedData);
+        return fetchedData;
+
+    } catch (error) {
+        console.log(error);
+        // setError(error.message)
+    }
+
+    //     setIsLoading(false)
+}
+// id or name is the id / name of the endpoint, not always the pokemon
 export async function handleFetch(endpoint, idOrName = '', params='') {
     //     setIsLoading(true)
     //     setError(null)
