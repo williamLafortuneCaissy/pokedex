@@ -2,36 +2,41 @@ import { Link, useParams } from "react-router-dom";
 import { BsArrowLeft } from "react-icons/bs"
 import { useEffect, useState } from "react";
 import './_pokemonDetail.scss';
-import { getPokemonDetails } from "../../actions";
 import PokemonTabs from "./tabs/PokemonTabs";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchPokemonDetails } from "../../store/pokemonActions";
 
 const PokemonDetail = () => {
     const { pokemonName } = useParams();
-    const [pokemon, setPokemon] = useState();
+    const dispatch = useDispatch();
+    const pokemon = useSelector(state => state.pokemon);
+
 
     useEffect(() => {
-        const getData = async () => {
-            const pokemonDetails = await getPokemonDetails(pokemonName);
-            transformState(pokemonDetails);
-        }
-        getData();
+        // const getData = async () => {
+        //     const pokemonDetails = await getPokemonDetails(pokemonName);
+        //     transformState(pokemonDetails);
+        // }
+        // getData();
+        dispatch(fetchPokemonDetails(pokemonName));
+
     }, [pokemonName]);
 
 
-    const transformState = (data) => {
-        setPokemon({
-            id: data.id,
-            name: data.name,
-            types: data.types.map(typeObj => ({
-                name: typeObj.type.name
-            })),
-            img: data.sprites.front_default,
-            stats: data.stats.map(statsObj => ({
-                prop: statsObj.stat.name,
-                value: statsObj.base_stat
-            }))
-        })
-    }
+    // const transformState = (data) => {
+    //     setPokemon({
+    //         id: data.id,
+    //         name: data.name,
+    //         types: data.types.map(typeObj => ({
+    //             name: typeObj.type.name
+    //         })),
+    //         img: data.sprites.front_default,
+    //         stats: data.stats.map(statsObj => ({
+    //             prop: statsObj.stat.name,
+    //             value: statsObj.base_stat
+    //         }))
+    //     })
+    // }
 
     // transform id into the format #000
     // ex: 1 -> returns #001
@@ -53,7 +58,7 @@ const PokemonDetail = () => {
             <div className="container mb-2">
                 <Link to='/'><BsArrowLeft /></Link>
             </div>
-            {pokemon &&
+            {pokemon.name === pokemonName &&
                 <>
                     <div className="container">
                         <div className="d-flex">
@@ -66,7 +71,7 @@ const PokemonDetail = () => {
                     </div>
                     <div className={'pokemonDetail__card'}>
                         <div className="container">
-                            <PokemonTabs />
+                            {/* <PokemonTabs /> */}
                         </div>
                     </div>
                 </>
