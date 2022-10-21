@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import './_pokemonDetail.scss';
 import PokemonTabs from "./tabs/PokemonTabs";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPokemonDetails } from "../../store/pokemonActions";
+import { fetchPokemon } from "../../store/pokemonActions";
 
 const PokemonDetail = () => {
     const { pokemonName } = useParams();
@@ -18,7 +18,9 @@ const PokemonDetail = () => {
         //     transformState(pokemonDetails);
         // }
         // getData();
-        dispatch(fetchPokemonDetails(pokemonName));
+
+        // if no data
+        dispatch(fetchPokemon(pokemonName));
 
     }, [pokemonName]);
 
@@ -63,10 +65,10 @@ const PokemonDetail = () => {
                     <div className="container">
                         <div className="d-flex">
                             <div className="fs-4 fw-bold">{pokemon.name}</div>
-                            <div className="ml-auto fw-bold align-self-end">{getTransformedId(pokemon.id)}</div>
+                            <div className="ml-auto fw-bold align-self-end">{getTransformedId(pokemon.details.id)}</div>
                         </div>
                         <div className="text-center">
-                            <img src={pokemon.img} alt={pokemon.name} />
+                            <img src={pokemon.details.img} alt={pokemon.name} />
                         </div>
                     </div>
                     <div className={'pokemonDetail__card'}>
