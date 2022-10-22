@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import './_pokemonDetail.scss';
 import PokemonTabs from "./tabs/PokemonTabs";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPokemon } from "../../store/pokemonActions";
+import { fetchPokemonDetails } from "../../store/pokemonActions";
 
 const PokemonDetail = () => {
     const { pokemonName } = useParams();
@@ -20,7 +20,7 @@ const PokemonDetail = () => {
         // getData();
 
         // if no data
-        dispatch(fetchPokemon(pokemonName));
+        dispatch(fetchPokemonDetails(pokemonName));
 
     }, [pokemonName]);
 

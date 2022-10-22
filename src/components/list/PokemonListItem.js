@@ -2,15 +2,16 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { ReactComponent as Pokeball } from '../../assets/images/pokeball.svg'
-import { fetchPokemon } from "../../store/pokemonActions";
+import { fetchPokemonDetails } from "../../store/pokemonActions";
 
 
 const PokemonListItem = ({ pokemonName }) => {
     const dispatch = useDispatch();
-    const pokemon = useSelector(state => state[pokemonName])
+    const pokemon = useSelector(state => state.list.find(pokemon => pokemon.name === pokemonName))
 
     useEffect(() => {
-        if (!pokemon) dispatch(fetchPokemon(pokemonName))
+        // TODO: SETUP ABORT
+        if (!pokemon.details) dispatch(fetchPokemonDetails(pokemonName))
     }, [pokemon]);
 
     // transform id into the format #000
@@ -28,20 +29,20 @@ const PokemonListItem = ({ pokemonName }) => {
         return transformedId
     }
 
-    if(!pokemon) return
+    if(!pokemon.details) return
     return (
         <>
-            <Link key={pokemon.name} to={`/${pokemon.name}`} className={`pokemonLi bg-${pokemon.types[0].name}`}>
+            <Link key={pokemon.details.name} to={`/${pokemon.details.name}`} className={`pokemonLi bg-${pokemon.details.types[0].name}`}>
                 <Pokeball className="pokemonLi__bg" />
-                <div className="pokemonLi__id">{getTransformedId(pokemon.id)}</div>
-                <div className="pokemonLi__name">{pokemon.name}</div>
+                <div className="pokemonLi__id">{getTransformedId(pokemon.details.id)}</div>
+                <div className="pokemonLi__name">{pokemon.details.name}</div>
                 <div className="d-flex">
                     <div>
-                        {pokemon.types.map(type => (
+                        {pokemon.details.types.map(type => (
                             <div key={type.name} className={`tag mb-2`}>{type.name}</div>
                         ))}
                     </div>
-                    <div className="ml-auto"><img src={pokemon.img} alt={pokemon.name} /></div>
+                    <div className="ml-auto"><img src={pokemon.details.img} alt={pokemon.details.name} /></div>
                 </div>
             </Link>
         </>

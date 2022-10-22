@@ -10,19 +10,19 @@ import { pokemonActions } from './store/pokemonSlice';
 
 function App() {
     const dispatch = useDispatch();
-    const pokemonState = useSelector(state => state);
+    const pokemon = useSelector(state => state);
     const [storageChecked, setStorageChecked] = useState(false);
 
     // update storage
     useEffect(() => {
-        const stateHasData = Object.keys(pokemonState).length;
-        const stateIsUpdated = localStorage.getItem('pokemonData') !== JSON.stringify(pokemonState);
+        const stateHasData = pokemon.list.length;
+        const stateIsUpdated = localStorage.getItem('pokemonData') !== JSON.stringify(pokemon.list);
 
         if (stateHasData && stateIsUpdated) {
-            console.log('save storage: ', pokemonState)
-            localStorage.setItem('pokemonData', JSON.stringify(pokemonState))
+            console.log('save storage: ', pokemon)
+            localStorage.setItem('pokemonData', JSON.stringify(pokemon))
         }
-    }, [pokemonState]);
+    }, [pokemon.list]);
 
     // get data from storage
     useEffect(() => {

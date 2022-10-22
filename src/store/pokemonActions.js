@@ -1,16 +1,9 @@
 import { pokemonActions } from "./pokemonSlice";
 
 export const fetchPokemonList = () => async (dispatch) => {
-    const limit = 20;
-    // const storedData = JSON.parse(localStorage.getItem('pokemonData')) ;
-    // if (storedData && storedData.list.length === limit) {
-    //     dispatch(pokemonActions.updatePokemonList(storedData.list));
-    //     console.log('get stored pokemonList');
-    //     return
-    // }
 
     const fetchThunk = async () => {
-        const response = await fetch('https://pokeapi.co/api/v2/pokemon/?limit='+limit);
+        const response = await fetch('https://pokeapi.co/api/v2/pokemon/');
         if (!response.ok) throw new Error("Could not fetch pokemonList!");
 
         const data = await response.json();
@@ -28,15 +21,7 @@ export const fetchPokemonList = () => async (dispatch) => {
     }
 }
 
-export const fetchPokemon = (pokemonName) => async (dispatch) => {
-    // const storedPokemonList = JSON.parse(localStorage.getItem('pokemonList')) || [];
-    // const storedPokemon = storedPokemonList[pokemonName];
-    // if(storedPokemon) {
-    //     dispatch(
-    //         pokemonActions.updatePokemon(storedPokemon)
-    //     );
-    //     return
-    // }
+export const fetchPokemonDetails = (pokemonName) => async (dispatch) => {
 
     const fetchThunk = async () => {
         const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
