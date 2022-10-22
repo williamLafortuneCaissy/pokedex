@@ -34,36 +34,7 @@ const pokemonSlice = createSlice({
                 ...pokemon,
                 details: pokemon.name === pokemonName ? details : pokemon.details || undefined,
             }));
-            // updatedPokemon.details = {
-            //     id: data.id,
-            //     name: data.name,
-            //     types: data.types.map(typeObj => ({
-            //         name: typeObj.type.name
-            //     })),
-            //     img: data.sprites.front_default,
-            //     stats: data.stats.map(statsObj => ({
-            //         prop: statsObj.stat.name,
-            //         value: statsObj.base_stat,
-            //     }))
-            // };
-            // const payload = action.payload;
-            // state
-            // state.name = payload.name;
-            // state.details = {
-            //     id: payload.id,
-            //     types: payload.types.map(typeObj => ({
-            //         name: typeObj.type.name
-            //     })),
-            //     img: payload.sprites.front_default,
-            //     stats: payload.stats.map(statsObj => ({
-            //         prop: statsObj.stat.name,
-            //         value: statsObj.base_stat,
-            //     }))
-            // };
         },
-        // updatePokemon(state, action) {
-        //     state = action.payload;
-        // }
     },
 });
 

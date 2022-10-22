@@ -41,3 +41,6 @@ export const fetchPokemonDetails = (pokemonName) => async (dispatch) => {
         console.error('Error in fetchPokemon: ', error)
     }
 }
+
+
+
