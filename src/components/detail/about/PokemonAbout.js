@@ -1,52 +1,38 @@
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getPokemonDetails, getSpecies, handleFetchUrl } from '../../../actions';
+import { fetchPokemonSpecies } from '../../../store/pokemonActions';
 import './_pokemonAbout.scss';
 
 const PokemonAbout = () => {
     const { pokemonName } = useParams();
-    const [about, setAbout] = useState(null);
+    const dispatch = useDispatch();
+    const pokemon = useSelector(state => state.list.find(pokemon => pokemon.name === pokemonName));
+
 
     useEffect(() => {
-        const getData = async (pokemonName) => {
-            let data = await getPokemonDetails(pokemonName);
-
-            if(data.species.url) {
-                data.species = await getSpecies(data.species.name);
-            }
-            //TODO: add abilities
-            transformState(data);
+        // we should already have details data
+        if (!pokemon.species) {
+            dispatch(fetchPokemonSpecies(pokemonName));
         }
-        getData(pokemonName)
-    }, [pokemonName]);
+    }, [pokemon, pokemonName]);
 
-
-    const transformState = (data) => {
-        const heightCm = data.height * 10; // data.height is in decimeter
-        const weightKg = data.weight * .1; // data.weight is in hectogram
-
-        setAbout({
-            name: data.name,
-            encounter: '',
-            height: heightCm,
-            weight: weightKg,
-            eggGroups: data.species.egg_groups.map(eggGroup => eggGroup.name),
-        })
-    }
 
     return (
         <>
-            {about &&
+            {/* species is the only data that could be missing */}
+            {pokemon.species &&
                 <div className="pokemonAbout">
                     {/* <p className="pokemonAbout__info">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Optio hic numquam quas temporibus aperiam ad distinctio eos. Maxime quibusdam sequi explicabo temporibus, debitis expedita a in ut neque, porro modi!</p> */}
                     <div className="pokemonAbout__card">
                         <div>
                             <div className="pokemonAbout__label text-muted">Height</div>
-                            <div className="fw-bold">{about.height} cm</div>
+                            <div className="fw-bold">{pokemon.height} cm</div>
                         </div>
                         <div>
                             <div className="pokemonAbout__label text-muted">Weight</div>
-                            <div className="fw-bold">{about.weight} kg</div>
+                            <div className="fw-bold">{pokemon.weight} kg</div>
                         </div>
                     </div>
                     <div className="fw-bold fs-2 mb-3 mt-5">Breeding</div>
@@ -56,7 +42,7 @@ const PokemonAbout = () => {
                     </div>
                     <div className="breeding__info">
                         <div className="breeding__label text-muted">Egg Groups</div>
-                        <div className="fw-bold">{about.eggGroups.join(', ')}
+                        <div className="fw-bold">{pokemon.species.eggGroups.join(', ')}
                         </div>
                     </div>
                     <div className="breeding__info">

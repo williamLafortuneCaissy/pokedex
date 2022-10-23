@@ -42,5 +42,26 @@ export const fetchPokemonDetails = (pokemonName) => async (dispatch) => {
     }
 }
 
+export const fetchPokemonSpecies = (pokemonName) => async (dispatch) => {
+
+    const fetchThunk = async () => {
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemonName}`);
+        if (!response.ok) throw new Error("Could not fetch pokemon data!");
+
+        const data = await response.json();
+        return data;
+    };
+
+    try {
+        const data = await fetchThunk(pokemonName);
+        console.log('fetched pokemon species', data);
+        dispatch(
+            pokemonActions.updatePokemonSpecies({pokemonName, data})
+        );
+    } catch (error) {
+        console.error('Error in fetchPokemon: ', error)
+    }
+}
+
 
 

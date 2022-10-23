@@ -8,7 +8,6 @@ import { fetchNewPokemonDetails, fetchPokemonDetails } from "../../store/pokemon
 
 const PokemonDetail = () => {
     const { pokemonName } = useParams();
-    const dispatch = useDispatch();
     const navigate = useNavigate();
     const pokemonList = useSelector(state => state.list);
     const pokemon = useSelector(state => state.list.find(pokemon => pokemon.name === pokemonName));
@@ -17,7 +16,7 @@ const PokemonDetail = () => {
         // we redirect becausehaving only 1 pokemon in the list breaks the list page
         // we dont need to fetch data because we use the same data as the list
         if(!pokemonList.length) navigate('/');
-    }, []);
+    }, [pokemonList]);
 
     // transform id into the format #000
     // ex: 1 -> returns #001
@@ -52,7 +51,7 @@ const PokemonDetail = () => {
                     </div>
                     <div className={'pokemonDetail__card'}>
                         <div className="container">
-                            {/* <PokemonTabs /> */}
+                            <PokemonTabs />
                         </div>
                     </div>
                 </>
