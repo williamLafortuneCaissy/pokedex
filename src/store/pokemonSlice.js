@@ -43,12 +43,13 @@ const pokemonSlice = createSlice({
             }));
         },
         updatePokemonSpecies(state, action) {
-            console.log('update pokemon species', action)
+            console.log('update pokemon species', action);
             const {pokemonName, data} = action.payload;
 
 
             const species = {
                 eggGroups: data.egg_groups.map(eggGroup => eggGroup.name),
+                evolution_chain: data.evolution_chain,
             }
 
             state.list = state.list.map(pokemon => ({
@@ -56,6 +57,24 @@ const pokemonSlice = createSlice({
                 species: pokemon.name === pokemonName ? species : pokemon.species || undefined,
             }));
         },
+        updateEvolutionChain(state, action) {
+            console.log('updatePokemonEvolution', action);
+            const { pokemonName, evolutionChainsData } = action.payload;
+
+            const recursiveReduce = (chain) => {
+                return {
+                    lvl: chain.evolution_details[0]?.min_level || 0,
+                    name: chain.species.name,
+                    evolves_to: chain.evolves_to.map(subChain => recursiveReduce(subChain)),
+                }
+            }
+            const evolutionChain = recursiveReduce(evolutionChainsData.chain);
+
+            state.list = state.list.map(pokemon => ({
+                ...pokemon,
+                evolutionChain: pokemon.name === pokemonName ? evolutionChain : pokemon.evolutionChain || undefined,
+            }));
+        }
     },
 });
 

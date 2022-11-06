@@ -1,13 +1,23 @@
 import { useState } from "react";
 import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { endpoints, getEvolutionChain, handleFetch } from "../../../actions";
+import { fetchPokemonEvolutions } from "../../../store/pokemonActions";
 import EvolutionChain from "./EvolutionChain";
 
 const PokemonEvolutions = () => {
     const { pokemonName } = useParams();
     const [evolutionChains, setEvolutionChains] = useState([]);
+    const dispatch = useDispatch();
+    const pokemons = useSelector(state => state.list);
+    const pokemon = useSelector(state => state.list.find(pokemon => pokemon.name === pokemonName));
+    console.log(pokemon)
     useEffect(() => {
+
+        let test = dispatch(fetchPokemonEvolutions(pokemonName, pokemons));
+
+        // console.log(test);
         /*
             getData needs to get the evolution chain, extract the name of everypokemon,
             then checks which pokemon we have in storage, and fetch the others
@@ -48,7 +58,7 @@ const PokemonEvolutions = () => {
             pokemonsData = pokemonsData.concat(remainingPokemons);
             transformState(evolutionChainsData, pokemonsData);
         }
-        getData()
+        // getData()
     }, [pokemonName]);
 
 

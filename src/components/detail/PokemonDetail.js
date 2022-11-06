@@ -34,29 +34,29 @@ const PokemonDetail = () => {
     }
 
     return (
-        <div className="bg-grass text-white pokemonDetail">
-            <div className="container mb-2">
-                <Link to='/'><BsArrowLeft /></Link>
-            </div>
+        <>
             {pokemon?.name === pokemonName &&
-                <>
-                    <div className="container">
-                        <div className="d-flex">
-                            <div className="fs-4 fw-bold">{pokemon.name}</div>
-                            <div className="ml-auto fw-bold align-self-end">{getTransformedId(pokemon.details.id)}</div>
-                        </div>
-                        <div className="text-center">
-                            <img src={pokemon.details.img} alt={pokemon.name} />
-                        </div>
+                <div className={`text-white pokemonDetail bg-${pokemon.details.types[0].name}`}>
+                    <div className="container mb-2">
+                        <Link to='/'><BsArrowLeft /></Link>
                     </div>
-                    <div className={'pokemonDetail__card'}>
                         <div className="container">
-                            <PokemonTabs />
+                            <div className="d-flex">
+                                <div className="fs-4 fw-bold">{pokemon.name}</div>
+                                <div className="ml-auto fw-bold align-self-end">{getTransformedId(pokemon.details.id)}</div>
+                            </div>
+                            <div className="text-center">
+                                <img src={pokemon.details.img} alt={pokemon.name} />
+                            </div>
                         </div>
-                    </div>
-                </>
+                        <div className={'pokemonDetail__card'}>
+                            <div className="container">
+                                <PokemonTabs />
+                            </div>
+                        </div>
+                </div>
             }
-        </div>
+        </>
     );
 }
 

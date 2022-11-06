@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getPokemonDetails, getSpecies, handleFetchUrl } from '../../../actions';
-import { fetchPokemonSpecies } from '../../../store/pokemonActions';
+import { fetchPokemonEvolutions } from '../../../store/pokemonActions';
 import './_pokemonAbout.scss';
 
 const PokemonAbout = () => {
@@ -14,7 +14,7 @@ const PokemonAbout = () => {
     useEffect(() => {
         // we should already have details data
         if (!pokemon.species) {
-            dispatch(fetchPokemonSpecies(pokemonName));
+            dispatch(fetchPokemonEvolutions(pokemonName));
         }
     }, [pokemon, pokemonName]);
 
@@ -28,11 +28,11 @@ const PokemonAbout = () => {
                     <div className="pokemonAbout__card">
                         <div>
                             <div className="pokemonAbout__label text-muted">Height</div>
-                            <div className="fw-bold">{pokemon.height} cm</div>
+                            <div className="fw-bold">{pokemon.details.height} cm</div>
                         </div>
                         <div>
                             <div className="pokemonAbout__label text-muted">Weight</div>
-                            <div className="fw-bold">{pokemon.weight} kg</div>
+                            <div className="fw-bold">{pokemon.details.weight} kg</div>
                         </div>
                     </div>
                     <div className="fw-bold fs-2 mb-3 mt-5">Breeding</div>
