@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getPokemonDetails, getSpecies, handleFetchUrl } from '../../../actions';
-import { fetchPokemonEvolutions } from '../../../store/pokemonActions';
+import { fetchPokemonSpecies } from '../../../store/pokemonActions';
 import './_pokemonAbout.scss';
 
 const PokemonAbout = () => {
@@ -14,7 +14,8 @@ const PokemonAbout = () => {
     useEffect(() => {
         // we should already have details data
         if (!pokemon.species) {
-            dispatch(fetchPokemonEvolutions(pokemonName));
+            // TODO: SETUP ABORT
+            dispatch(fetchPokemonSpecies(pokemonName));
         }
     }, [pokemon, pokemonName]);
 

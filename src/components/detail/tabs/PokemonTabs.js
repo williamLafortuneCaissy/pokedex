@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import PokemonAbout from "../about/PokemonAbout";
-import PokemonEvolutions from "../evolutions/PokemonEvolutions";
+import PokemonEvolutionChains from "../evolutions/PokemonEvolutions";
 import PokemonStats from "../stats/PokemonStats";
 import './_tabs.scss';
 
@@ -20,7 +20,7 @@ const tabs = [
     },
     {
         name: 'Evolutions',
-        component: <PokemonEvolutions />
+        component: <PokemonEvolutionChains />
     }
 ]
 

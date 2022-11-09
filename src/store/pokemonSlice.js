@@ -72,7 +72,7 @@ const pokemonSlice = createSlice({
 
             state.list = state.list.map(pokemon => ({
                 ...pokemon,
-                evolutionChain: pokemon.name === pokemonName ? evolutionChain : pokemon.evolutionChain || undefined,
+                evolution_chain: pokemon.name === pokemonName ? evolutionChain : pokemon.evolutionChain || undefined,
             }));
         }
     },

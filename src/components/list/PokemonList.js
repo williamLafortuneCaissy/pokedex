@@ -12,7 +12,6 @@ const PokemonList = () => {
     const pokemonList = useSelector(state => state.list);
 
     useEffect(() => {
-        console.log('pokemonList', pokemonList)
         // TODO: SETUP ABORT
         if(!pokemonList.length) dispatch(fetchPokemonList())
     }, [pokemonList]);

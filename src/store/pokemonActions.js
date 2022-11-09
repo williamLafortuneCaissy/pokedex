@@ -78,28 +78,28 @@ export const fetchPokemonEvolutions = (pokemonName, pokemons) => async (dispatch
 
     // loop throught every pokemon in the evolution chain and
     // call fetchPokemonDetails() for missing pokemons
-    const fetchMissingPokemons = (chain) => {
+    // const fetchMissingPokemons = (chain) => {
 
-        const checkEvolution = (chain) => {
-            if (!pokemons.find(pokemon => pokemon.name === chain.species.name).details) {
-                fetchPokemonDetails(chain.species.name);
-            }
+    //     const checkEvolution = (chain) => {
+    //         if (!pokemons.find(pokemon => pokemon.name === chain.species.name).details) {
+    //             fetchPokemonDetails(chain.species.name);
+    //         }
 
-            if (!chain.evolves_to.length) return
+    //         if (!chain.evolves_to.length) return
 
-            chain.evolves_to.map(evolvesChain => (
-                checkEvolution(evolvesChain)
-            ))
-        };
-        checkEvolution(chain);
-    }
+    //         chain.evolves_to.map(evolvesChain => (
+    //             checkEvolution(evolvesChain)
+    //         ))
+    //     };
+    //     checkEvolution(chain);
+    // }
 
     try {
         // console.log(pokemonName, evolutionUrl)
         const evolutionChainsData = await fetchThunk(pokemonName, evolutionUrl);
         console.log('fetched evolution chain', evolutionChainsData);
 
-        fetchMissingPokemons(evolutionChainsData.chain);
+        // fetchMissingPokemons(evolutionChainsData.chain);
         // console.log('Full evolution', fullEvolution);
 
         // const promisePrep = [];

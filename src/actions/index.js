@@ -1,4 +1,6 @@
 
+// EVERYTHING HERE IS DEPRICATED.
+
 export const endpoints = {
     pokemon: 'pokemon',
     pokemonSpecies: 'pokemon-species',
