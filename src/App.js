@@ -27,8 +27,13 @@ function App() {
     // get data from storage
     useEffect(() => {
         const storedData = JSON.parse(localStorage.getItem('pokemonData'));
-        if (storedData) dispatch(pokemonActions.updateState(storedData))
         setStorageChecked(true);
+        if (storedData) {
+            dispatch(pokemonActions.updateState(storedData))
+        } else {
+            // TODO: check every useEffect, make sure they have a cleanup function
+            dispatch(fetchPokemonList())
+        }
     }, []);
 
     return (

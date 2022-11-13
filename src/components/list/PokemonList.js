@@ -1,41 +1,56 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
 import './_pokemonList.scss';
-import { handleFetchUrl } from "../../actions";
-import InfiniteScroll from "react-infinite-scroller";
-import { useDispatch, useSelector } from "react-redux";
 import PokemonListItem from "./PokemonListItem";
-import { fetchPokemonList } from "../../store/pokemonActions";
+import { useSelector } from "react-redux";
+
+const POKEMONS_PER_PAGES = 2;
+const NB_TOTAL_POKEMONS = 1154;
 
 const PokemonList = () => {
-    const dispatch = useDispatch();
-    const pokemonList = useSelector(state => state.list);
+    const pokemonList = useSelector(state => state.list)
+    const [lastPokemon, setLastPokemon] = useState();
+    const [nbPokemons, setNbPokemons] = useState(POKEMONS_PER_PAGES);
+    const gridScrollerRef = useRef();
+
+    // TODO: load more mokemon at the same time without causing an infinite load
+    // bug prob due to abusing the scroll when pokemon arent loaded yet
+    const observerRef = useRef(
+        new IntersectionObserver( (entries) => {
+            if (entries[0].isIntersecting) {
+                if(nbPokemons <= NB_TOTAL_POKEMONS) {
+                    setNbPokemons( prevNbPokemons => prevNbPokemons + POKEMONS_PER_PAGES )
+                }
+            }
+        }, {
+            root: gridScrollerRef.current,
+            threshold: .9,
+        })
+    );
 
     useEffect(() => {
-        // TODO: SETUP ABORT
-        if(!pokemonList.length) dispatch(fetchPokemonList())
-    }, [pokemonList]);
+        const observer = observerRef.current;
+
+        if (lastPokemon) observer.observe(lastPokemon);
+        return () => {
+            if (lastPokemon) {
+                observer.unobserve(lastPokemon);
+            }
+        };
+    }, [lastPokemon]);
 
 
-    const loadMore = () => {
-        console.log('loadMore')
-    }
 
     return (
-        <div className="container">
-            {/* <InfiniteScroll
-                className="pokemonGrid"
-                pageStart={0}
-                loadMore={loadMore}
-                hasMore={true}
-                loader={<div className="loader" key={0}>Loading ...</div>}
-            > */}
+        <div className="container pokemonScroller" ref={gridScrollerRef}>
             <div className="pokemonGrid">
-                {pokemonList?.map((pokemon, key) => (
-                    <PokemonListItem key={key} pokemonName={pokemon.name} />
+                {pokemonList.slice(0, nbPokemons)?.map((pokemon, key) => (
+                    <PokemonListItem
+                        key={key}
+                        pokemon={pokemon}
+                        innerRef={setLastPokemon}
+                    />
                 ))}
             </div>
-            {/* </InfiniteScroll> */}
         </div>
     );
 }

@@ -4,7 +4,7 @@ import { pokemonActions } from "./pokemonSlice";
 export const fetchPokemonList = () => async (dispatch) => {
 
     const fetchThunk = async () => {
-        const response = await fetch('https://pokeapi.co/api/v2/pokemon/');
+        const response = await fetch('https://pokeapi.co/api/v2/pokemon/?limit=1154"');
         if (!response.ok) throw new Error("Could not fetch pokemonList!");
 
         const data = await response.json();
@@ -14,6 +14,7 @@ export const fetchPokemonList = () => async (dispatch) => {
     try {
         const data = await fetchThunk();
         console.log('fetched pokemonList', data);
+
         dispatch(
             pokemonActions.updatePokemonList(data.results)
         );

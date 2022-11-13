@@ -1,5 +1,10 @@
 @use '/src/assets/sass/abstracts' as *;
 
+.pokemonScroller {
+    max-height: 100vh;
+    overflow: auto;
+}
+
 .pokemonGrid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -15,7 +20,7 @@
     position: relative;
     overflow: hidden;
     isolation: isolate; // creates stacking context to prevent before from being behind everything
-
+    display: block;
 
     &__bg {
         position: absolute;

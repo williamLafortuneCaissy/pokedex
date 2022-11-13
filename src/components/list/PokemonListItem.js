@@ -5,13 +5,13 @@ import { ReactComponent as Pokeball } from '../../assets/images/pokeball.svg'
 import { fetchPokemonDetails } from "../../store/pokemonActions";
 
 
-const PokemonListItem = ({ pokemonName }) => {
+const PokemonListItem = (props) => {
     const dispatch = useDispatch();
-    const pokemon = useSelector(state => state.list.find(pokemon => pokemon.name === pokemonName))
+    const pokemon = useSelector(state => state.list.find(pokemon => pokemon.name === props.pokemon.name))
 
     useEffect(() => {
         // TODO: SETUP ABORT
-        if (!pokemon.details) dispatch(fetchPokemonDetails(pokemonName))
+        if (!pokemon.details) dispatch(fetchPokemonDetails(pokemon.name))
     }, [pokemon]);
 
     // transform id into the format #000
@@ -32,7 +32,10 @@ const PokemonListItem = ({ pokemonName }) => {
     if(!pokemon.details) return
     return (
         <>
-            <Link key={pokemon.details.name} to={`/${pokemon.details.name}`} className={`pokemonLi bg-${pokemon.details.types[0].name}`}>
+            <Link
+                ref={props.innerRef}
+                to={`/${pokemon.details.name}`}
+                className={`pokemonLi bg-${pokemon.details.types[0].name}`}>
                 <Pokeball className="pokemonLi__bg" />
                 <div className="pokemonLi__id">{getTransformedId(pokemon.details.id)}</div>
                 <div className="pokemonLi__name">{pokemon.details.name}</div>

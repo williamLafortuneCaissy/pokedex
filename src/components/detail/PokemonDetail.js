@@ -12,6 +12,8 @@ const PokemonDetail = () => {
     const pokemonList = useSelector(state => state.list);
     const pokemon = useSelector(state => state.list.find(pokemon => pokemon.name === pokemonName));
 
+    // TODO: make sure the app work if we add a pokemon name in the url (ex: eevee)
+    // we might not need redirect anymore
     useEffect(() => {
         // we redirect becausehaving only 1 pokemon in the list breaks the list page
         // we dont need to fetch data because we use the same data as the list
