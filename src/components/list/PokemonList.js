@@ -3,7 +3,7 @@ import './_pokemonList.scss';
 import PokemonListItem from "./PokemonListItem";
 import { useSelector } from "react-redux";
 
-const POKEMONS_PER_PAGES = 2;
+const POKEMONS_PER_PAGES = 20;
 const NB_TOTAL_POKEMONS = 1154;
 
 const PokemonList = () => {
@@ -11,21 +11,21 @@ const PokemonList = () => {
     const [lastPokemon, setLastPokemon] = useState();
     const [nbPokemons, setNbPokemons] = useState(POKEMONS_PER_PAGES);
     const [search, setSearch] = useState('');
-    const [displayPokemons, setDisplayPokemons] = useState(pokemonList);
+    const [displayPokemons, setDisplayPokemons] = useState(pokemonList.slice((0, nbPokemons)));
     const gridScrollerRef = useRef();
 
     // TODO: load more mokemon at the same time without causing an infinite load
     // bug prob due to abusing the scroll when pokemon arent loaded yet
     const observerRef = useRef(
         new IntersectionObserver( (entries) => {
+            console.log('lastPokemon entered the viewport'); // it never leave because lastPokemon is updated
             if (entries[0].isIntersecting) {
-                if(nbPokemons <= NB_TOTAL_POKEMONS) {
-                    setNbPokemons( prevNbPokemons => prevNbPokemons + POKEMONS_PER_PAGES )
-                }
+                console.log('intersecting: ', entries[0]);
+                setNbPokemons( prevNbPokemons => prevNbPokemons + POKEMONS_PER_PAGES )
             }
         }, {
-            root: gridScrollerRef.current,
-            threshold: .9,
+            // root: null
+            // threshold: 0,
         })
     );
 
@@ -52,13 +52,13 @@ const PokemonList = () => {
         }, 250)
 
     return () => clearTimeout(delaySearch)
-  }, [search, pokemonList])
+  }, [search, pokemonList]);
 
     return (
         <>
-            <div className="container">
+            <div className="container pokemonSearch__container">
                 <input
-                    className="pokemonSearch my-3"
+                    className="pokemonSearch"
                     type="text"
                     name="search"
                     placeholder="Search..."
@@ -73,6 +73,7 @@ const PokemonList = () => {
                             key={key}
                             pokemon={pokemon}
                             innerRef={setLastPokemon}
+                            id={pokemon.name}
                         />
                     ))}
                 </div>

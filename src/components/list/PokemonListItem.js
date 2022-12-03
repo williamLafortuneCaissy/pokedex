@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { ReactComponent as Pokeball } from '../../assets/images/pokeball.svg'
 import { fetchPokemonDetails } from "../../store/pokemonActions";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 
 const PokemonListItem = (props) => {
@@ -29,12 +31,13 @@ const PokemonListItem = (props) => {
         return transformedId
     }
 
-    if(!pokemon.details) return
+    if(!pokemon.details) return <Skeleton className="pokemonLi--border-radius" height={200} count={1} />
     return (
         <>
             <Link
                 ref={props.innerRef}
                 to={`/${pokemon.details.name}`}
+                id={props.id}
                 className={`pokemonLi bg-${pokemon.details.types[0].name}`}>
                 <Pokeball className="pokemonLi__bg" />
                 <div className="pokemonLi__id">{getTransformedId(pokemon.details.id)}</div>
@@ -45,7 +48,7 @@ const PokemonListItem = (props) => {
                             <div key={type.name} className={`tag mb-2`}>{type.name}</div>
                         ))}
                     </div>
-                    <div className="ml-auto"><img src={pokemon.details.img} alt={pokemon.details.name} /></div>
+                    <div className="ml-auto"><img src={pokemon.details.img} alt={pokemon.details.name} width={96} height={96} /></div>
                 </div>
             </Link>
         </>

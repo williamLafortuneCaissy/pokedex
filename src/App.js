@@ -38,17 +38,15 @@ function App() {
 
     return (
         <div className="app">
-            <div className="app__frame">
-                {/* prevent loading component which could result in fetching data that we already have in storage */}
-                {storageChecked &&
-                    <BrowserRouter>
-                        <Routes>
-                            <Route path="/" element={<PokemonList />} />
-                            <Route path="/:pokemonName" element={<PokemonDetail />} />
-                        </Routes>
-                    </BrowserRouter>
-                }
-            </div>
+            {/* prevent loading component which could result in fetching data that we already have in storage */}
+            {storageChecked &&
+                <BrowserRouter>
+                    <Routes>
+                        <Route path="/" element={<PokemonList />} />
+                        <Route path="/:pokemonName" element={<PokemonDetail />} />
+                    </Routes>
+                </BrowserRouter>
+            }
         </div>
     );
 }

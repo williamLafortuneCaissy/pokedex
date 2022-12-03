@@ -1,23 +1,10 @@
 @use "./abstracts/mediaqueries" as *;
 
 .app {
+    width: min(100%, 450px);
+    margin-inline: auto;
 
     @media screen and (min-width: map-get($mqs, 'sm')) {
         display: grid;
-    }
-
-    &__frame {
-        height: 100%;
-
-        @media screen and (min-width: map-get($mqs, 'sm')) {
-            max-width: 450px;
-            max-height: 896px;
-            height: 100%;
-            width: 100%;
-            border: 15px solid #111;
-            border-radius: 30px;
-            overflow: auto;
-            margin: auto;
-        }
     }
 }
