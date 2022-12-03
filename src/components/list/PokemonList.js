@@ -10,6 +10,8 @@ const PokemonList = () => {
     const pokemonList = useSelector(state => state.list)
     const [lastPokemon, setLastPokemon] = useState();
     const [nbPokemons, setNbPokemons] = useState(POKEMONS_PER_PAGES);
+    const [search, setSearch] = useState('');
+    const [displayPokemons, setDisplayPokemons] = useState(pokemonList);
     const gridScrollerRef = useRef();
 
     // TODO: load more mokemon at the same time without causing an infinite load
@@ -27,6 +29,7 @@ const PokemonList = () => {
         })
     );
 
+    // paging
     useEffect(() => {
         const observer = observerRef.current;
 
@@ -38,18 +41,38 @@ const PokemonList = () => {
         };
     }, [lastPokemon]);
 
+    // search
+    useEffect(() => {
+        // need delay to prevent unnessessary fetching while typing
+        const delaySearch = setTimeout(() => {
+            if(!search) return;
+            const filteredPokemon = pokemonList.filter(pokemon => pokemon.name.toLowerCase().includes(search.toLowerCase()));
+            setDisplayPokemons(filteredPokemon)
+        }, 500)
 
+    return () => clearTimeout(delaySearch)
+  }, [search, pokemonList])
 
     return (
-        <div className="container pokemonScroller" ref={gridScrollerRef}>
-            <div className="pokemonGrid">
-                {pokemonList.slice(0, nbPokemons)?.map((pokemon, key) => (
-                    <PokemonListItem
-                        key={key}
-                        pokemon={pokemon}
-                        innerRef={setLastPokemon}
-                    />
-                ))}
+        <div className="container">
+            <input
+                className="pokemonSearch my-3"
+                type="text"
+                name="search"
+                placeholder="Search..."
+                onChange={(e) => setSearch(e.target.value)}
+                value={search}
+            />
+            <div className="pokemonScroller" ref={gridScrollerRef}>
+                <div className="pokemonGrid">
+                    {displayPokemons.slice(0, nbPokemons)?.map((pokemon, key) => (
+                        <PokemonListItem
+                            key={key}
+                            pokemon={pokemon}
+                            innerRef={setLastPokemon}
+                        />
+                    ))}
+                </div>
             </div>
         </div>
     );

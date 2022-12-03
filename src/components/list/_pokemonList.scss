@@ -5,6 +5,31 @@
     overflow: auto;
 }
 
+// .pokemonTitle {
+//     font-weight: 800;
+//     font-size: 2rem;
+//     padding-top: 2rem;
+// }
+
+.pokemonSearch {
+    border: none;
+    background-color: #f2f2f2;
+    border-radius: 100vw;
+    padding: .75rem 1rem;
+    width: 100%;
+    outline: 0 solid #dadada;
+    transition: outline .1s ease-in-out;
+
+    &__container {
+        position: sticky;
+        top: 0;
+    }
+}
+
+.pokemonSearch:focus {
+    outline: 2px solid #dadada;
+}
+
 .pokemonGrid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
