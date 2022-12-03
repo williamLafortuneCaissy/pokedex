@@ -45,25 +45,28 @@ const PokemonList = () => {
     useEffect(() => {
         // need delay to prevent unnessessary fetching while typing
         const delaySearch = setTimeout(() => {
-            if(!search) return;
+            if(!search) return setDisplayPokemons(pokemonList);
+
             const filteredPokemon = pokemonList.filter(pokemon => pokemon.name.toLowerCase().includes(search.toLowerCase()));
             setDisplayPokemons(filteredPokemon)
-        }, 500)
+        }, 250)
 
     return () => clearTimeout(delaySearch)
   }, [search, pokemonList])
 
     return (
-        <div className="container">
-            <input
-                className="pokemonSearch my-3"
-                type="text"
-                name="search"
-                placeholder="Search..."
-                onChange={(e) => setSearch(e.target.value)}
-                value={search}
-            />
-            <div className="pokemonScroller" ref={gridScrollerRef}>
+        <>
+            <div className="container">
+                <input
+                    className="pokemonSearch my-3"
+                    type="text"
+                    name="search"
+                    placeholder="Search..."
+                    onChange={(e) => setSearch(e.target.value)}
+                    value={search}
+                />
+            </div>
+            <div className="container pokemonScroller" ref={gridScrollerRef}>
                 <div className="pokemonGrid">
                     {displayPokemons.slice(0, nbPokemons)?.map((pokemon, key) => (
                         <PokemonListItem
@@ -74,7 +77,7 @@ const PokemonList = () => {
                     ))}
                 </div>
             </div>
-        </div>
+        </>
     );
 }
 
