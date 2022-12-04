@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { ReactComponent as Pokeball } from '../../assets/images/pokeball.svg'
 import { fetchPokemonDetails } from "../../store/pokemonActions";
 import Skeleton from "react-loading-skeleton";
-import "react-loading-skeleton/dist/skeleton.css";
 
 
 const PokemonListItem = (props) => {

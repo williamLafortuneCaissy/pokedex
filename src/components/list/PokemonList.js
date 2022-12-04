@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from "react";
+import "react-loading-skeleton/dist/skeleton.css";
 import './_pokemonList.scss';
 import PokemonListItem from "./PokemonListItem";
 import { useSelector } from "react-redux";
 
-const POKEMONS_PER_PAGES = 20;
+const POKEMONS_PER_PAGES = 2;
 const NB_TOTAL_POKEMONS = 1154;
 
 const PokemonList = () => {

@@ -36,9 +36,7 @@
 }
 
 .pokemonLi {
-    --border-radius: 2rem;
-
-    border-radius: var(--border-radius);
+    border-radius: 2rem;
     padding: 1rem;
 
     background-color: #666;
@@ -49,7 +47,7 @@
     display: block;
 
     &--border-radius {
-        border-radius: var(--border-radius);
+        border-radius: 2rem;
     }
 
     &__bg {
