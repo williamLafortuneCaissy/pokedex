@@ -12,8 +12,10 @@ const PokemonListItem = (props) => {
     const pokemon = useSelector(state => state.list.find(pokemon => pokemon.name === props.pokemon.name))
 
     useEffect(() => {
-        // TODO: SETUP ABORT
-        if (!pokemon.details) dispatch(fetchPokemonDetails(pokemon.name))
+        const abortController = new AbortController();
+        if (!pokemon.details) dispatch(fetchPokemonDetails(pokemon.name, abortController))
+
+        return () => abortController.abort();
     }, [pokemon]);
 
     // transform id into the format #000
