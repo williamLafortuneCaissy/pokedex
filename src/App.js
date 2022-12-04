@@ -10,7 +10,7 @@ import { pokemonActions } from './store/pokemonSlice';
 
 function App() {
     const dispatch = useDispatch();
-    const pokemon = useSelector(state => state);
+    const pokemon = useSelector(store=> store.pokemon);
     const [storageChecked, setStorageChecked] = useState(false);
 
     // update storage

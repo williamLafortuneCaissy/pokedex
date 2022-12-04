@@ -8,7 +8,7 @@ import './_pokemonAbout.scss';
 const PokemonAbout = () => {
     const { pokemonName } = useParams();
     const dispatch = useDispatch();
-    const pokemon = useSelector(state => state.list.find(pokemon => pokemon.name === pokemonName));
+    const pokemon = useSelector(store=> store.pokemon.list.find(pokemon => pokemon.name === pokemonName));
 
 
     useEffect(() => {

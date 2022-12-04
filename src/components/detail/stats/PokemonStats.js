@@ -7,7 +7,7 @@ import ProgressBar from "./progressBar/ProgressBar";
 
 const PokemonStats = () => {
     const { pokemonName } = useParams();
-    const pokemonStats = useSelector(state => state.list.find(pokemon => pokemon.name === pokemonName).details.stats)
+    const pokemonStats = useSelector(store=> store.pokemon.list.find(pokemon => pokemon.name === pokemonName).details.stats)
 
     // return transformed prop name if necessary
     const renameProp = (prop) => {

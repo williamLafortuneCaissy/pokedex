@@ -5,12 +5,19 @@ import './_pokemonDetail.scss';
 import PokemonTabs from "./tabs/PokemonTabs";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchNewPokemonDetails, fetchPokemonDetails } from "../../store/pokemonActions";
+// import { themeActions } from "../../store/themeSlice";
 
 const PokemonDetail = () => {
     const { pokemonName } = useParams();
     const navigate = useNavigate();
-    const pokemonList = useSelector(state => state.list);
-    const pokemon = useSelector(state => state.list.find(pokemon => pokemon.name === pokemonName));
+    const pokemonList = useSelector(store=> store.pokemon.list);
+    const pokemon = useSelector(store=> store.pokemon.list.find(pokemon => pokemon.name === pokemonName));
+    // const dispatch = useDispatch();
+
+    // useEffect(() => {
+    //     const pokemonType = pokemon.details.types[0].name || null
+    //     if (pokemonType) dispatch(themeActions.updateTheme(pokemonType))
+    // }, [pokemon]);
 
     // TODO: make sure the app work if we add a pokemon name in the url (ex: eevee)
     // we might not need redirect anymore

@@ -9,7 +9,7 @@ const PokemonEvolutions = () => {
     const { pokemonName } = useParams();
     const [evolutionChains, setEvolutionChains] = useState([]);
     const dispatch = useDispatch();
-    const pokemonList = useSelector(state => state.list);
+    const pokemonList = useSelector(store=> store.pokemon.list);
 
     // TODO: refactor so that we can fetch missing data
     useEffect(() => {

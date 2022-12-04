@@ -8,7 +8,7 @@ const POKEMONS_PER_PAGES = 2;
 const NB_TOTAL_POKEMONS = 1154;
 
 const PokemonList = () => {
-    const pokemonList = useSelector(state => state.list)
+    const pokemonList = useSelector(store=> store.pokemon.list)
     const [lastPokemon, setLastPokemon] = useState();
     const [nbPokemons, setNbPokemons] = useState(POKEMONS_PER_PAGES);
     const [search, setSearch] = useState('');

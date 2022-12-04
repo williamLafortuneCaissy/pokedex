@@ -8,7 +8,7 @@ import Skeleton from "react-loading-skeleton";
 
 const PokemonListItem = (props) => {
     const dispatch = useDispatch();
-    const pokemon = useSelector(state => state.list.find(pokemon => pokemon.name === props.pokemon.name))
+    const pokemon = useSelector(store=> store.pokemon.list.find(pokemon => pokemon.name === props.pokemon.name))
 
     useEffect(() => {
         const abortController = new AbortController();
