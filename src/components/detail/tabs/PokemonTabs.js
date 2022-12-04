@@ -14,10 +14,10 @@ const tabs = [
         name: 'Stats',
         component: <PokemonStats />
     },
-    {
-        name: 'Moves',
-        component: <>PokemonMoves</>
-    },
+    // {
+    //     name: 'Moves',
+    //     component: <>PokemonMoves</>
+    // },
     {
         name: 'Evolutions',
         component: <PokemonEvolutionChains />
