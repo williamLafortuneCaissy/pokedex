@@ -10,7 +10,8 @@ import { pokemonActions } from './store/pokemonSlice';
 
 function App() {
     const dispatch = useDispatch();
-    const pokemon = useSelector(store=> store.pokemon);
+    const pokemonType = useSelector(store => store.theme.pokemonType)
+    const pokemon = useSelector(store => store.pokemon);
     const [storageChecked, setStorageChecked] = useState(false);
 
     // update storage
@@ -37,16 +38,18 @@ function App() {
     }, []);
 
     return (
-        <div className="app">
-            {/* prevent loading component which could result in fetching data that we already have in storage */}
-            {storageChecked &&
-                <BrowserRouter>
-                    <Routes>
-                        <Route path="/" element={<PokemonList />} />
-                        <Route path="/:pokemonName" element={<PokemonDetail />} />
-                    </Routes>
-                </BrowserRouter>
-            }
+        <div className={`bg-${pokemonType}`}>
+            <div className={`app`}>
+                {/* prevent loading component which could result in fetching data that we already have in storage */}
+                {storageChecked &&
+                    <BrowserRouter>
+                        <Routes>
+                            <Route path="/" element={<PokemonList />} />
+                            <Route path="/:pokemonName" element={<PokemonDetail />} />
+                        </Routes>
+                    </BrowserRouter>
+                }
+            </div>
         </div>
     );
 }

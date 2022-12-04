@@ -5,19 +5,19 @@ import './_pokemonDetail.scss';
 import PokemonTabs from "./tabs/PokemonTabs";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchNewPokemonDetails, fetchPokemonDetails } from "../../store/pokemonActions";
-// import { themeActions } from "../../store/themeSlice";
+import { themeActions } from "../../store/themeSlice";
 
 const PokemonDetail = () => {
     const { pokemonName } = useParams();
     const navigate = useNavigate();
     const pokemonList = useSelector(store=> store.pokemon.list);
     const pokemon = useSelector(store=> store.pokemon.list.find(pokemon => pokemon.name === pokemonName));
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
-    // useEffect(() => {
-    //     const pokemonType = pokemon.details.types[0].name || null
-    //     if (pokemonType) dispatch(themeActions.updateTheme(pokemonType))
-    // }, [pokemon]);
+    useEffect(() => {
+        const pokemonType = pokemon.details.types[0].name || null
+        if (pokemonType) dispatch(themeActions.updatePokemonType(pokemonType))
+    }, [pokemon]);
 
     // TODO: make sure the app work if we add a pokemon name in the url (ex: eevee)
     // we might not need redirect anymore
@@ -46,7 +46,7 @@ const PokemonDetail = () => {
         <>
             {pokemon?.name === pokemonName &&
                 <div className={`text-white pokemonDetail bg-${pokemon.details.types[0].name}`}>
-                    <div className="container mb-2">
+                    <div className="container mb-2 pt-3">
                         <Link to='/'><BsArrowLeft /></Link>
                     </div>
                         <div className="container">
