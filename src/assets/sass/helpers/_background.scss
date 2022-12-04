@@ -1,7 +1,0 @@
-@use '../abstracts/colors' as *;
-
-@each $key, $value in $colors {
-    .bg-#{$key} {
-        background-color: $value !important;
-    }
-}
