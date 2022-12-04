@@ -1,10 +1,5 @@
 @use '/src/assets/sass/abstracts' as *;
 
-.pokemonScroller {
-    max-height: 100vh;
-    overflow: auto;
-}
-
 // .pokemonTitle {
 //     font-weight: 800;
 //     font-size: 2rem;
@@ -21,8 +16,12 @@
     transition: outline .1s ease-in-out;
 
     &__container {
+        --spacer: 1rem;
+
         position: sticky;
         top: 0;
+        padding-block: var(--spacer);
+        z-index: 10;
     }
 }
 
@@ -46,6 +45,10 @@
     overflow: hidden;
     isolation: isolate; // creates stacking context to prevent before from being behind everything
     display: block;
+
+    &--border-radius {
+        border-radius: 2rem;
+    }
 
     &__bg {
         position: absolute;

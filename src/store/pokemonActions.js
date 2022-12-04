@@ -23,10 +23,10 @@ export const fetchPokemonList = () => async (dispatch) => {
     }
 }
 
-export const fetchPokemonDetails = (pokemonName) => async (dispatch) => {
+export const fetchPokemonDetails = (pokemonName, abortController) => async (dispatch) => {
 
     const fetchThunk = async (pokemonName) => {
-        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`, { signal: abortController.signal });
         if (!response.ok) throw new Error("Could not fetch pokemon data!");
 
         const data = await response.json();
@@ -35,12 +35,15 @@ export const fetchPokemonDetails = (pokemonName) => async (dispatch) => {
 
     try {
         const data = await fetchThunk(pokemonName);
-        console.log('fetched pokemon', data);
+        console.log('fetched pokemon details', data);
         dispatch(
             pokemonActions.updatePokemonDetails({pokemonName, data})
         );
     } catch (error) {
-        console.error('Error in fetchPokemon: ', error)
+        // only call dispatch when we know the fetch was not aborted
+        if (!abortController.signal.aborted) {
+            console.error('Error in fetchPokemonDetails: ', error)
+        }
     }
 }
 

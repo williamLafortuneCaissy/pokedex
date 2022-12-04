@@ -1,8 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import pokemonSlice from "./pokemonSlice";
+import themeSlice from "./themeSlice";
 
 const store = configureStore({
-    reducer: pokemonSlice.reducer,
+    reducer: {
+        pokemon: pokemonSlice.reducer,
+        theme: themeSlice.reducer,
+    },
+
 });
 
 export default store

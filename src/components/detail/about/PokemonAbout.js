@@ -8,7 +8,7 @@ import './_pokemonAbout.scss';
 const PokemonAbout = () => {
     const { pokemonName } = useParams();
     const dispatch = useDispatch();
-    const pokemon = useSelector(state => state.list.find(pokemon => pokemon.name === pokemonName));
+    const pokemon = useSelector(store=> store.pokemon.list.find(pokemon => pokemon.name === pokemonName));
 
 
     useEffect(() => {
@@ -37,19 +37,19 @@ const PokemonAbout = () => {
                         </div>
                     </div>
                     <div className="fw-bold fs-2 mb-3 mt-5">Breeding</div>
-                    <div className="breeding__info">
+                    {/* <div className="breeding__info">
                         <div className="breeding__label text-muted">Gender</div>
                         <div className="fw-bold">value</div>
-                    </div>
+                    </div> */}
                     <div className="breeding__info">
                         <div className="breeding__label text-muted">Egg Groups</div>
                         <div className="fw-bold">{pokemon.species.eggGroups.join(', ')}
                         </div>
                     </div>
-                    <div className="breeding__info">
+                    {/* <div className="breeding__info">
                         <div className="breeding__label text-muted">Egg Cycle</div>
                         <div className="fw-bold">value</div>
-                    </div>
+                    </div> */}
                 </div>
             }
         </>
