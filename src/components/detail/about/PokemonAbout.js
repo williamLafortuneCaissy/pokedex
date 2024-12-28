@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getPokemonDetails, getSpecies, handleFetchUrl } from '../../../actions';
 import { fetchPokemonSpecies } from '../../../store/pokemonActions';
 import './_pokemonAbout.scss';
 

@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { themeActions } from "../../store/themeSlice";
 
 const POKEMONS_PER_PAGES = 2;
-const NB_TOTAL_POKEMONS = 1154;
 
 const PokemonList = () => {
     const pokemonList = useSelector(store=> store.pokemon.list)
@@ -22,11 +21,9 @@ const PokemonList = () => {
         dispatch(themeActions.updatePokemonType(null))
     }, []);
 
-    // TODO: load more mokemon at the same time without causing an infinite load
-    // bug prob due to abusing the scroll when pokemon arent loaded yet
     const observerRef = useRef(
         new IntersectionObserver( (entries) => {
-            console.log('lastPokemon entered the viewport'); // it never leave because lastPokemon is updated
+            console.log('lastPokemon entered the viewport');
             if (entries[0].isIntersecting) {
                 console.log('intersecting: ', entries[0]);
                 setNbPokemons( prevNbPokemons => prevNbPokemons + POKEMONS_PER_PAGES )

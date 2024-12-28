@@ -35,7 +35,7 @@ function App() {
             // TODO: check every useEffect, make sure they have a cleanup function
             dispatch(fetchPokemonList())
         }
-    }, []);
+    }, [dispatch]);
 
     return (
         <div className={`bg-${pokemonType}`}>

@@ -1,9 +1,6 @@
 @use '../../../assets/sass/abstracts/colors' as *;
 
 .tabs {
-    // overflow: auto;
-    // max-width: 100%;
-
     &__list {
         display: grid;
         grid-auto-columns: 1fr;

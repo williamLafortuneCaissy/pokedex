@@ -21,7 +21,6 @@ const PokemonEvolutions = () => {
             return
         }
 
-        // hasMissingData returns true if data is missing
         const hasMissingData = () => {
             let missingPokemon = [];
 
@@ -39,29 +38,8 @@ const PokemonEvolutions = () => {
             extractPokemonUrl(pokemon.evolution_chain);
 
             return !missingPokemon.length;
-
-            // ============== code below is just a reference till refactor =================
-            // const storedPokemons = JSON.parse(localStorage.getItem('pokemons')) || [];
-            // const storedPonemonName = storedPokemons.map(storedPokemon => storedPokemon.name);
-
-            // get existing pokemon data from storage
-            // pokemonNames.forEach(pokemonName => {
-            //     if (storedPonemonName.includes(pokemonName)) {
-            //         pokemonsData.push(storedPokemons.find(storedPokemon => storedPokemon.name === pokemonName));
-            //     }
-            // })
-
-            // // fetch other pokemons
-            // const filteredPokemonNames = pokemonNames.filter(pokemonName => !storedPonemonName.includes(pokemonName));
-            // const remainingPokemons = await Promise.all(filteredPokemonNames.map(pokemon => (
-            //     handleFetch(endpoints.pokemon, pokemon)
-            // )))
-
-            // pokemonsData = pokemonsData.concat(remainingPokemons);
-            // transformState(evolutionChainsData, pokemonsData);
         }
 
-        // --------------------------------------------------------------
 
         const prepareState = () => {
             const newState = [];
