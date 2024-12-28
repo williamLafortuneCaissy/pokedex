@@ -42,7 +42,7 @@ function App() {
             <div className={`app`}>
                 {/* prevent loading component which could result in fetching data that we already have in storage */}
                 {storageChecked &&
-                    <BrowserRouter>
+                    <BrowserRouter basename={'pokedex'}>
                         <Routes>
                             <Route path="/" element={<PokemonList />} />
                             <Route path="/:pokemonName" element={<PokemonDetail />} />
