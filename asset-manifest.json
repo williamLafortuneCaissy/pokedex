@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "//williamlafortunecaissy.github.io/pokedex/static/css/main.fd9ec9f7.css",
-    "main.js": "//williamlafortunecaissy.github.io/pokedex/static/js/main.f5fba906.js",
+    "main.js": "//williamlafortunecaissy.github.io/pokedex/static/js/main.c5aa6ed0.js",
     "static/js/453.ac4c0547.chunk.js": "//williamlafortunecaissy.github.io/pokedex/static/js/453.ac4c0547.chunk.js",
     "static/media/pokeball.svg": "//williamlafortunecaissy.github.io/pokedex/static/media/pokeball.4c56728d0ebd9ced42293f921378af1e.svg",
     "index.html": "//williamlafortunecaissy.github.io/pokedex/index.html",
     "main.fd9ec9f7.css.map": "//williamlafortunecaissy.github.io/pokedex/static/css/main.fd9ec9f7.css.map",
-    "main.f5fba906.js.map": "//williamlafortunecaissy.github.io/pokedex/static/js/main.f5fba906.js.map",
+    "main.c5aa6ed0.js.map": "//williamlafortunecaissy.github.io/pokedex/static/js/main.c5aa6ed0.js.map",
     "453.ac4c0547.chunk.js.map": "//williamlafortunecaissy.github.io/pokedex/static/js/453.ac4c0547.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.fd9ec9f7.css",
-    "static/js/main.f5fba906.js"
+    "static/js/main.c5aa6ed0.js"
   ]
 }
